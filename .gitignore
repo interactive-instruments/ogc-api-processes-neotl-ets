@@ -81,7 +81,7 @@ xtext-gen
 # Eclipse
 .settings/
 .metadata/
-bin/
+# bin/
 
 # IntelliJ
 .idea/
