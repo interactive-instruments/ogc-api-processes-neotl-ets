@@ -1,0 +1,9 @@
+GetRequest "Request /api" {
+    id: requestsApi
+    description: "Issue a HTTP GET request on the path /api"
+
+    path: "api"
+
+    headers:
+        - "Accept" = "application/json"
+}

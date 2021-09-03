@@ -1,0 +1,1446 @@
+{
+    "identifier": "http://www.opengis.net/doc/IS/ogcapi-processes-1/1.0",
+    "name": "OGC API - Processes - Part 1: Core",
+    "conformanceClasses": [
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core",
+            "abstractTestCases": [],
+            "name": "A.2. Conformance Class Core",
+            "targetType": "Web API",
+            "abstractTestGroups": [
+                {
+                    "abstractTestCases": [
+                        {
+                            "path": "/conf/core/landingpage-op",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 1 /req/core/landingpage-op The server SHALL support the HTTP GET operation at the path /.",
+                                    "uri": "/req/core/landingpage-op"
+                                }
+                            ],
+                            "testMethod": [
+                                "Issue an HTTP GET request to the root URL /",
+                                "Validate the contents of the returned document using test /conf/core/landingpage-success."
+                            ],
+                            "name": "Abstract Test 1",
+                            "testPurpose": "Validate that a landing page can be retrieved from the expected location."
+                        },
+                        {
+                            "path": "/conf/core/landingpage-success",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 2 /req/core/landingpage-success A successful execution of the operation SHALL be reported as a response with a HTTP status code 200. The content of that response SHALL be based upon the OpenAPI 3.0 schema landingPage.yaml and include at least links to the following resources: the API definition (relation type 'service-desc' or 'service-doc') /conformance (relation type 'http://www.opengis.net/def/rel/ogc/1.0/conformance') /processes (relation type 'http://www.opengis.net/def/rel/ogc/1.0/processes')",
+                                    "uri": "/req/core/landingpage-success"
+                                }
+                            ],
+                            "testMethod": [
+                                "Validate that a document was returned with an HTTP status code or 200.",
+                                "Validate the landing page for all supported media types using the resources and tests identified in Schema and Tests for Landing Pages",
+                                "For formats that require manual inspection, perform the following:",
+                                "Validate that the landing page includes a \"service-desc\" and/or \"service-doc\" link to an API Definition.",
+                                "Validate that the landing page includes a \"http://www.opengis.net/def/rel/ogc/1.0/conformance\" link to the conformance class declaration.",
+                                "Validate that the landing page includes a \"processes\" link to the list of processes."
+                            ],
+                            "name": "Abstract Test 2",
+                            "testPurpose": "Validate that the landing page complies with the require structure and contents."
+                        }
+                    ],
+                    "name": "A.2.1. Landing Page /",
+                    "abstractTestGroups": []
+                },
+                {
+                    "abstractTestCases": [
+                        {
+                            "path": "/conf/core/api-definition-op",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 3 /req/core/api-definition-op The URIs of all API definitions referenced from the landing page SHALL support the HTTP GET operation.",
+                                    "uri": "/req/core/api-definition-op"
+                                }
+                            ],
+                            "testMethod": [
+                                "Construct a path for the API Definition document that ends with /api.",
+                                "Issue a HTTP GET request on that path",
+                                "Validate the contents of the returned document using test /conf/core/api-definition-success."
+                            ],
+                            "name": "Abstract Test 3",
+                            "testPurpose": "Validate that the API Definition document can be retrieved from the expected location."
+                        },
+                        {
+                            "path": "/conf/core/api-definition-success",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 4 /req/core/api-definition-success A successful execution of the operation to get the API definition document SHALL be reported as a response with a HTTP status code 200. The server SHALL return an API definition document.",
+                                    "uri": "/req/core/api-definition-success"
+                                }
+                            ],
+                            "testMethod": [
+                                "Validate that a document was returned with a status code 200",
+                                "Validate the API Definition document against an appropriate schema document."
+                            ],
+                            "name": "Abstract Test 4",
+                            "testPurpose": "Validate that the API Definition complies with the required structure and contents."
+                        }
+                    ],
+                    "name": "A.2.2. API Definition /api",
+                    "abstractTestGroups": []
+                },
+                {
+                    "abstractTestCases": [
+                        {
+                            "path": "/conf/core/conformance-op",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 5 /req/core/conformance-op The server SHALL support the HTTP GET operation at the path /conformance.",
+                                    "uri": "/req/core/conformance-op"
+                                }
+                            ],
+                            "testMethod": [
+                                "Construct a path for each \"rel=http://www.opengis.net/def/rel/ogc/1.0/conformance\" link on the landing page as well as for the {root}/conformance path.",
+                                "Issue an HTTP GET request on each path",
+                                "Validate the contents of the returned document using test /conf/core/conformance-success."
+                            ],
+                            "name": "Abstract Test 5",
+                            "testPurpose": "Validate that a Conformance Declaration can be retrieved from the expected location."
+                        },
+                        {
+                            "path": "/conf/core/conformance-success",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 6 /req/core/conformance-success A successful execution of the operation SHALL be reported as a response with a HTTP status code 200. The content of that response SHALL be based upon the OpenAPI 3.0 schema req-classes.yaml and list all OGC API - Processes requirements classes that the server conforms to.",
+                                    "uri": "/req/core/conformance-success"
+                                }
+                            ],
+                            "testMethod": [
+                                "Validate that a document was returned with an HTTP status code of 200.",
+                                "Validate the response document against OpenAPI 3.0 schema link: confClasses.yaml",
+                                "Validate that the document includes the conformance class \"http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core\"",
+                                "Validate that the document list all OGC API conformance classes that the API implements."
+                            ],
+                            "name": "Abstract Test 6",
+                            "testPurpose": "Validate that the Conformance Declaration response complies with the required structure and contents."
+                        }
+                    ],
+                    "name": "A.2.3. Conformance Path /conformance",
+                    "abstractTestGroups": []
+                },
+                {
+                    "abstractTestCases": [
+                        {
+                            "path": "/conf/core/http",
+                            "requirements": [
+                                {
+                                    "description": "Requirement 7 /req/core/http The server SHALL conform to HTTP 1.1. If the server supports HTTPS, the server SHALL also conform to HTTP over TLS.",
+                                    "uri": "/req/core/http"
+                                }
+                            ],
+                            "testMethod": [
+                                "All compliance tests SHALL be configured to use the HTTP 1.1 protocol exclusively.",
+                                "For APIs which support HTTPS, all compliance tests SHALL be configured to use HTTP over TLS (RFC 2818) with their HTTP 1.1 protocol."
+                            ],
+                            "name": "Abstract Test 7",
+                            "testPurpose": "Validate that the resource paths advertised through the API conform with HTTP 1.1 and, where appropriate, TLS."
+                        }
+                    ],
+                    "name": "A.2.4. HTTP 1.1",
+                    "abstractTestGroups": []
+                },
+                {
+                    "abstractTestCases": [],
+                    "name": "A.2.5. Processes /processes",
+                    "abstractTestGroups": [
+                        {
+                            "abstractTestCases": [
+                                {
+                                    "path": "/conf/core/process-list",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 8 /req/core/process-list The server SHALL support the HTTP GET operation at the path /processes.",
+                                            "uri": "/req/core/process-list"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Issue an HTTP GET request to the URL {root}/processes",
+                                        "Validate the contents of the returned document using test /conf/core/process-list-success."
+                                    ],
+                                    "name": "Abstract Test 8",
+                                    "testPurpose": "Validate that information about the processes can be retrieved from the expected location."
+                                },
+                                {
+                                    "path": "/conf/core/pl-limit-definition",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 9 /req/core/pl-limit-definition A The operation SHALL support a parameter limit with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: limit\nin: query\nrequired: false\nschema:\n  type: integer\n  minimum: 1\n  maximum: 10000\n  default: 10\nstyle: form\nexplode: false",
+                                            "uri": "/req/core/pl-limit-definition"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Verify that the limit query parameter complies with its definition in requirement /req/core/pl-limit-definition.",
+                                        "Note that the API can define different values for \"minimum\", \"maximum\" and \"default\"."
+                                    ],
+                                    "name": "Abstract Test 9",
+                                    "testPurpose": "Validate that the limit query parameter is constructed correctly."
+                                },
+                                {
+                                    "path": "/conf/core/process-list-success",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 11 /req/core/process-list-success A successful execution of the process operation SHALL be reported as a response with a HTTP status code 200. The content of that response SHALL be based upon the OpenAPI 3.0 schema processList.yaml.",
+                                            "uri": "/req/core/process-list-success"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Validate that a document was returned with an HTTP status code of 200.",
+                                        "Validate the process list content for all supported media types using the resources and tests identified in Schema and Tests for Lists content"
+                                    ],
+                                    "name": "Abstract Test 10",
+                                    "testPurpose": "Validate that the process list content complies with the required structure and contents."
+                                },
+                                {
+                                    "path": "/conf/core/pl-links",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 12 /req/core/pl-links A A 200-response SHALL include the following links: a link to this response document (relation: self), a link to the response document in every other media type supported by the service (relation: alternate).",
+                                            "uri": "/req/core/pl-links"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a list of process summaries as per test /conf/core/process-list-op.",
+                                        "Verify that the links section of the response contains a link with rel=self.",
+                                        "Verify that the links section of the response contains a link with rel=alternate for each response representation the service claims to support in its conformance document."
+                                    ],
+                                    "name": "Abstract Test 11",
+                                    "testPurpose": "Validate that the proper links are included in a response."
+                                },
+                                {
+                                    "path": "/conf/core/pl-limit-response",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 10 /req/core/pl-limit-response A The response SHALL not contain more process summaries than specified by the optional limit parameter. B If the API definition specifies a maximum value for limit parameter, the response SHALL not contain more process summaries than this maximum value.",
+                                            "uri": "/req/core/pl-limit-response"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a list of processes as per test /conf/core/process-list-op and append the limit query parameter to the request.",
+                                        "Count the number of process summaries listed in the response.",
+                                        "Verify that this count is not greater than the value specified by the limit parameter.",
+                                        "If the API definition specifies a maximum value for limit parameter, verify that the count does not exceed this maximum value."
+                                    ],
+                                    "name": "Abstract Test 12",
+                                    "testPurpose": "Validate that the limit query parameter is processed correctly."
+                                }
+                            ],
+                            "name": "A.2.5.1. Process list",
+                            "abstractTestGroups": []
+                        },
+                        {
+                            "abstractTestCases": [
+                                {
+                                    "path": "/conf/core/process",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 13 /req/core/process The server SHALL support the HTTP GET operation at the path /processes/{processID}.",
+                                            "uri": "/req/core/process"
+                                        }
+                                    ],
+                                    "testMethod": ["For every Process described in the process list content, issue an HTTP GET request to the URL /processes/{processID} where {processID} is the id property for the process. . Validate the response using the test /conf/core/process-success."],
+                                    "name": "Abstract Test 13",
+                                    "testPurpose": "Validate that a process description can be retrieved from the expected location."
+                                },
+                                {
+                                    "path": "/conf/core/process-success",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 14 /req/core/process-success A A successful execution of the operation SHALL be reported as a response with a HTTP status code 200. B The content of the response SHALL be a process description.",
+                                            "uri": "/req/core/process-success"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Validate that a document was returned with an HTTP status code of 200.",
+                                        "Verify that the content of the response is valid description of the interface of the process for all supported process description models."
+                                    ],
+                                    "name": "Abstract Test 14",
+                                    "testPurpose": "Validate that the content complies with the required structure and contents."
+                                }
+                            ],
+                            "name": "A.2.5.2. Process description /processes/{processID}",
+                            "abstractTestGroups": []
+                        },
+                        {
+                            "abstractTestCases": [
+                                {
+                                    "path": "/conf/core/process-exception-no-such-process",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/process-exception-no-such-process"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Issue an HTTP GET request to a URL that includes the {processID} as a path element using a non-existent process identifier.",
+                                        "Validate that the document was returned with a 404.",
+                                        "Validate that the document contains the exception type \"http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-process\".",
+                                        "Validate the document for all supported media types using the resources and tests identified in Schema and Tests for Non-existent Process"
+                                    ],
+                                    "name": "Abstract Test 15",
+                                    "testPurpose": "Validate that an invalid process identifier is handled correctly."
+                                }
+                            ],
+                            "name": "A.2.5.3. Process exception",
+                            "abstractTestGroups": []
+                        }
+                    ]
+                },
+                {
+                    "abstractTestCases": [],
+                    "name": "A.2.6. Jobs",
+                    "abstractTestGroups": [
+                        {
+                            "abstractTestCases": [
+                                {
+                                    "path": "/conf/core/job-creation-op",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-op"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Issue an HTTP POST request to the URL '/processes/{processID}/execution' for each execution mode according to requirements /conf/core/job-creation-default-execution-mode or /conf/core/job-creation-auto-execution-mode.",
+                                        "Validate the contents of the POST request using the test /conf/core/job-creation-request.",
+                                        "Validate the creation of the job according the requirements /req/core/job-creation-default-execution-mode, /req/core/job-creation-auto-execution-mode."
+                                    ],
+                                    "name": "Abstract Test 16",
+                                    "testPurpose": "Validate the creation of a new job."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-auto-execution-mode",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-op"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and take note of the job control options for the process.",
+                                        "Setting the HTTP Prefer header to include the respond-sync preference, construct an execute request according to test /conf/core/job-creation-request.",
+                                        "For processes that are supposed to execute asynchronously according to the /req/core/job-creation-auto-execution-mode requirement, verify the successful execution according to the /conf/core/job-creation-success-async test.",
+                                        "For processes that are supposed to execute synchronously according to the /req/core/job-creation-auto-execution-mode requirement, verify the successful execution according to the relevant requirement based on the combination of execute parameters.",
+                                        "For processes that may execute either synchronously or asynchronously according to the /req/core/job-creation-auto-execution-mode requirement, verify that successful execution according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 17",
+                                    "testPurpose": "Validate that the server correctly handles the execution mode for a process."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-default-execution-mode",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-op"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and take note of the job control options for the process.",
+                                        "Without setting the HTTP Prefer header, construct an execute request according to test /conf/core/job-creation-request.",
+                                        "For processes that are supposed to execute asynchronously according to the /req/core/job-creation-default-execution-mode requirement, verify the successful execution according to the /conf/core/job-creation-success-async test.",
+                                        "For processes that are supposed to execute synchronously according to the /req/core/job-creation-auto-execution-mode requirement, verify the successful synchronous execution according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 18",
+                                    "testPurpose": "Validate that the server correctly handles the default execution mode for a process."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-request",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-request"
+                                        }
+                                    ],
+                                    "testMethod": ["Verify the contents of the request body against the OpenAPI 3.0 schema execute.yaml."],
+                                    "name": "Abstract Test 19",
+                                    "testPurpose": "Validate that the body of a job creation operation complies with the required structure and contents."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-inputs",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-inputs"
+                                        }
+                                    ],
+                                    "testMethod": ["Verify that the server passes tests /conf/core/job-creation-input-inline and /conf/core/job-creation-input-ref ."],
+                                    "name": "Abstract Test 20",
+                                    "testPurpose": "Validate that servers can accept input values both inline and by reference."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-inline",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-inline"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using t est /conf/core/process.",
+                                        "For each process construct an execute request according to test /conf/core/job-creation-request taking care to encode process inputs in-line with the execute request according to the requirement /req/core/job-creation-input-inline.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 21",
+                                    "testPurpose": "Validate in-line process input values are validated against the corresponding schema from the process description."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-ref",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-ref"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request taking care to encode input values by reference according to requirement /req/core/job-creation-input-ref.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 22",
+                                    "testPurpose": "Validate that input values specified by reference in an execute request are correctly processed."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-array",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-array"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the list of processes that have inputs with a maximum cardinality greater that one.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request taking care to encode the inputs with maximum cardinality > 1 according to the requirement /req/core/job-creation-input-array.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 23",
+                                    "testPurpose": "Verify that the server correctly recognizes the encoding of parameter values for input parameters with a maximum cardinality greater than one."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-inline-object",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-inline-object"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that have inputs with complex object schemas (i.e. inputs of type `object).",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request taking care to encode the identified object inputs in-line in the execute request according to requirement /req/core/job-creation-input-inline-object.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 24",
+                                    "testPurpose": "Validate that inputs with a complex object schema encoded in-line in an execute request are correctly processed."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-inline-mixed",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-inline-mixed"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using t est /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that have inputs of mixed content using the oneOf[] JSON Schema construct to define several alternate input value schemas.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request taking care to encode the identified mix-content inputs in-line in the execute request according to requirement /req/core/job-creation-input-inline-mixed.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 25",
+                                    "testPurpose": "Validate that inputs of mixed content encoded in-line in an execute request are correctly processed."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-inline-binary",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-binary"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using t est /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that have binary inputs.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request taking care to encode binary input values in-line in the execute request according to requirement /req/core/job-creation-input-inline-binary.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 26",
+                                    "testPurpose": "Validate that binary input values encoded as base-64 string in-line in an execute request are correctly processes."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-inline-bbox",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-inline-bbox"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that have bounding box inputs that are supposed to conform to the bbox.yaml schema.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request taking care to encode values for the identified bounding box inputs in-line in the execute request.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters."
+                                    ],
+                                    "name": "Abstract Test 27",
+                                    "testPurpose": "Validate that inputs with a bounding box schema encoded in-line in an execute request are correctly processed."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-input-validation",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-input-validation"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process taking note of the definition of each process input and specifically the schema of each process input.",
+                                        "For each process construct an execute request according to test /conf/core/job-creation-request taking care to encode the input values according to the schema from the definition of each input.",
+                                        "Verify that each process executes successfully according to the relevant requirement based on the combination of execute parameters.",
+                                        "For each process construct an execute request according to test /conf/core/job-creation-request taking care to encode some of the input values in violation of the schema from the definition of the selected input.",
+                                        "Verify that each process generates an exception report that identifies the improperly specified input value(s)."
+                                    ],
+                                    "name": "Abstract Test 28",
+                                    "testPurpose": "Verify that the server correctly validates process input values according to the definition obtained from the process description."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-sync-raw-value-one",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-sync-raw-value-one"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that generate at least one output and support the sync-execute job control option and the value output transmission.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution is negotiated according to test /conf/core/job-creation-default-execution-mode, that only one output is requested, that the requested response type is raw (i.e. \"response\": \"raw\") and that the output transmission is set to value (i.e. \"transmissionMode\": \"value\") according to requirement /req/core/job-creation-sync-raw-value-one.",
+                                        "Verify that each process executes successfully according to requirement /req/core/job-creation-sync-raw-value-one."
+                                    ],
+                                    "name": "Abstract Test 29",
+                                    "testPurpose": "Validate that the server responds as expected when synchronous execution is negotiated, a single output value is requested, the response type is raw and the output transmission is value."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-sync-raw-value-multi",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-sync-raw-value-multi"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that generate more that one output, support the sync-execute job control option and the value output transmission.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution is <sc_execution_mode,negotiated>> according to test /conf/core/job-creation-default-execution-mode, that more than one output is requested, that the requested response type is raw (i.e. \"response\": \"raw\") and the the transmission mode is set to value (i.e. \"transmissionMode\": \"value\") according to requirement /req/core/job-creation-sync-raw-value-multi.",
+                                        "Verify that each process executes successfully according to requirement /req/core/job-creation-sync-raw-value-multi."
+                                    ],
+                                    "name": "Abstract Test 30",
+                                    "testPurpose": "Validate that the server responds as expected when synchronous execution is negotiated, the response type is raw and the output transmission is value."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-sync-raw-ref",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-sync-raw-ref"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that support the sync-execute job control option and the reference output transmission.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution is negotiated according to test /conf/core/job-creation-default-execution-mode, that the requested response type is raw (i.e. \"response\": \"raw\") and the transmission mode is set to ref (i.e. \"transmissionMode\": \"ref\") according to requirement /req/core/job-creation-sync-raw-ref.",
+                                        "Verify that each process executes successfully according to requirement /req/core/job-creation-sync-raw-ref."
+                                    ],
+                                    "name": "Abstract Test 31",
+                                    "testPurpose": "Validate that the server responds as expected when synchronous execution is negotiated, the response type is raw and the transmission mode is ref."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-sync-raw-mixed-multi",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-sync-raw-mixed-multi"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that generate more that one output and support the sync-execute job control option.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution is <sc_execution_mode,negotiated>> according to test /conf/core/job-creation-default-execution-mode, that more than one output is requested, that the requested response type is raw (i.e. \"response\": \"raw\") and the the transmission mode is a mix of value (i.e. \"transmissionMode\": \"value\") and reference (i.e. \"transmissionMode\": \"reference\") according to requirement /req/core/job-creation-sync-raw-mixed-multi.",
+                                        "Verify that each process executes successfully according to requirement /req/core/job-creation-sync-raw-mixed-multi.",
+                                        "For each output requested with \"transmissionMode\": \"value\" verify that the body of the corresponding part contains the output value.",
+                                        "For each output requested with \"transmissionMode\": \"reference\" verify that the body of the corresponding part is empty and the Content-Location header is included that points to the output value."
+                                    ],
+                                    "name": "Abstract Test 32",
+                                    "testPurpose": "Validate that the server responds as expected when synchronous execution is negotiated, the response type is raw and the output transmission is a mix of value and reference."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-sync-document",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-sync-document"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that support the sync-execute job control option.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution has been negotiated according to tests /conf/core/job-creation-default-execution-mode and the requested response type is document (i.e. \"response\": \"document\") according to requirement /req /core/job-creation-sync-document.",
+                                        "Verify that each process executes successfully according to requirement /req/core/job-creation-sync-document."
+                                    ],
+                                    "name": "Abstract Test 33",
+                                    "testPurpose": "Validate that the server responds as expected when synchronous execution is negotiated and the response type is document."
+                                },
+                                {
+                                    "path": "/conf/core/job-creation-success-async",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-creation-success-async"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Validate that results of the job was returned with an HTTP status code 201.",
+                                        "Validate the HTTP headers of the results using the test /conf/core/job-creation-success-header-async."
+                                    ],
+                                    "name": "Abstract Test 34",
+                                    "testPurpose": "Validate the results of a job that has been created using the async execution mode."
+                                }
+                            ],
+                            "name": "A.2.6.1. Job creation /processes/{processID}/execution",
+                            "abstractTestGroups": []
+                        },
+                        {
+                            "abstractTestCases": [
+                                {
+                                    "path": "/conf/core/job-op",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/fc-op"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Create a job as per /req/core/job-creation-op and note the {jobID} assigned to the job.",
+                                        "Issue an HTTP GET request to the URL '/jobs/{jobID}'.",
+                                        "Validate the contents of the returned document using the test /conf/core/job-success."
+                                    ],
+                                    "name": "Abstract Test 35",
+                                    "testPurpose": "Validate that the status info of a job can be retrieved."
+                                },
+                                {
+                                    "path": "/conf/core/job-success",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 36 /req/core/job-success A successful execution of the operation SHALL be reported as a response with a HTTP status code 200. The content of that response SHALL be based upon the OpenAPI 3.0 schema statusInfo.yaml.",
+                                            "uri": "/req/core/job-success"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Validate that the document was returned with an HTTP status code of 200.",
+                                        "Validate the job status info for all supported media types using the resources and tests identified in Schema and Tests for the Job Status Info"
+                                    ],
+                                    "name": "Abstract Test 36",
+                                    "testPurpose": "Validate that the job status info complies with the require structure and contents."
+                                },
+                                {
+                                    "path": "/conf/core/job-exception-no-such-job",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 37 /req/core/job-exception-no-such-job If the operation is executed using an invalid job identifier, the response SHALL have HTTP status code 404. The content of that response SHALL be based upon the OpenAPI 3.0 schema exception.yaml. The type of the exception SHALL be \"http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-job\".",
+                                            "uri": "/req/core/job-exception-no-such-job"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Issue an HTTP GET request to the URL that includes the {jobID} as a path element using a non-existent job identifier.",
+                                        "Validate that the document was returned with a 404.",
+                                        "Validate that the document contains the exception type \"http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-job\".",
+                                        "Validate the document for all supported media types using the resources and tests identified in Schema and Tests for the Job Result for Non-existent Job"
+                                    ],
+                                    "name": "Abstract Test 37",
+                                    "testPurpose": "Validate that an invalid job identifier is handled correctly."
+                                }
+                            ],
+                            "name": "A.2.6.2. Job status /jobs/{jobID}",
+                            "abstractTestGroups": []
+                        },
+                        {
+                            "abstractTestCases": [
+                                {
+                                    "path": "/conf/core/job-results",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 38 /req/core/job-results The server SHALL support the HTTP GET operation at the path /jobs/{jobID}/results.",
+                                            "uri": "/req/core/job-results"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Create a job as per /req/core/job-creation-op and note the {jobID} assigned to the job.",
+                                        "Issue an HTTP GET request to the URL '/jobs/{jobID}/results'.",
+                                        "Validate that the document was returned with a status code 200.",
+                                        "Validate the contents of the returned document using the test /conf/core/job-results-success."
+                                    ],
+                                    "name": "Abstract Test 38",
+                                    "testPurpose": "Validate that the results of a job can be retrieved."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-sync",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-results-sync"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that support the sync-execute job control option.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution is negotiated according to test /conf/core/job-creation-default-execution-mode.",
+                                        "Inspect the headers of the response and see if a Link header is included with rel=monitor.",
+                                        "If the link exists, get the job status as per test /conf/core/job-op and ensure that the job status is set to successful."
+                                    ],
+                                    "name": "Abstract Test 39",
+                                    "testPurpose": "Validate that the server responds as expected when getting results from a job for a process that has been executed synchronously."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-async-raw-value-one",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 39 /req/core/job-results-async-raw-value-one The server SHALL response as per requirement /req/core/process-execute-sync-raw-value-one.",
+                                            "uri": "/req/core/job-results-async-raw-value-one"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that generate at least one output and that support the async-execute job control option and the value output transmission.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that asynchronous execution is negotiated according to test /conf/core/job-creation-auto-execution-mode, that the requested response type is raw (i.e. \"response\": \"raw\") and that the output transmission is set to value (i.e. \"outputTransmission\": \"value\") according to requirement /req/core/job-creation-async-raw-value-one.",
+                                        "If the server responds asynchronously, periodically retrieve the status of the asynchronously executed job as per test /conf/core/job-op.",
+                                        "When the job status is successful, get the results as per test /conf/core/job-results and verify that they conform to requirement /req/core/job-results-async-raw-value-one."
+                                    ],
+                                    "name": "Abstract Test 40",
+                                    "testPurpose": "Validate that the server responds as expected when asynchronous execution is negotiated, one output is requested, the response type is raw and the output transmission is value."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-async-raw-value-multi",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 40 /req/core/job-results-async-raw-value-multi The server SHALL respond as per requirement /req/core/process-execute-sync-raw-value-multi.",
+                                            "uri": "/req/core/job-results-async-raw-value-multi"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that generate more than one output and that support the async-execute job control option and the value output transmission.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that asynchronous execution is negotiated according to test /conf/core/job-creation-auto-execution-mode, that the requested response type is raw (i.e. \"response\": \"raw\") and that the output transmission is set to value (i.e. \"outputTransmission\": \"value\") according to requirement /req/core/job-creation-async-raw-value-multi.",
+                                        "Periodically retrieve the status of the asynchronously execute job as per test /conf/core/job-op.",
+                                        "When the job status is successful, get the results as per test /conf/core/job-results and verify that they conform to requirement /conf/core/job-results-async-raw-value-multi."
+                                    ],
+                                    "name": "Abstract Test 41",
+                                    "testPurpose": "Validate that the server responds as expected when asynchronous execution is <sc_execution_mode,negotiated>>, more than one output is requested, the response type is raw and the output transmission is value."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-async-raw-ref",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 42 /req/core/job-results-async-raw-ref The server SHALL response as per requirement /req/core/process-execute-sync-raw-ref.",
+                                            "uri": "/req/core/job-results-async-raw-ref"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that support the async-execute job control option and the reference output transmission.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that synchronous execution is negotiated according to test /conf/core/job-creation-auto-execution-mode, that the requested response type is raw (i.e. \"response\": \"raw\") and that the output transmission is set to reference (i.e. \"outputTransmission\": \"reference\") according to requirement /req/core/job-creation-async-raw-ref.",
+                                        "If the server responds asynchronously, periodically retrieve the status of the asynchronously executed job as per test /conf/core/job-op.",
+                                        "When the job status is successful, get the results as per test /conf/core/job-results and verify that they conform to requirement /req/core/job-results-async-ref."
+                                    ],
+                                    "name": "Abstract Test 42",
+                                    "testPurpose": "Validate that the server responds as expected when asynchronous execution is <,sc_execution_mode,negotiated>>, the response type is raw and the output transmission is reference."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-async-raw-mixed-multi",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 41 /req/core/job-results-async-raw-mixed-multi The server SHALL respond as per requirement /req/core/process-execute-sync-raw-mixed-multi.",
+                                            "uri": "/req/core/job-results-async-raw-mixed-multi"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that generate more than one output and that support the async-execute job control option.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that asynchronous execution is negotiated according to test /conf/core/job-creation-auto-execution-mode, that the requested response type is raw (i.e. \"response\": \"raw\") and that the output transmission is set to a mix of value (i.e. \"outputTransmission\": \"value\") and reference (i.e. \"outputTransmission\": \"reference\") according to requirement /req/core/job-creation-async-raw-mixed-multi.",
+                                        "Periodically retrieve the status of the asynchronously execute job as per test /conf/core/job-op.",
+                                        "When the job status is successful, get the results as per test /conf/core/job-results and verify that they conform to requirement /conf/core/job-results-async-raw-mixed-multi.",
+                                        "For each output requested with \"transmissionMode\": \"value\" verify that the body of the corresponding part contains the output value.",
+                                        "For each output requested with \"transmissionMode\": \"reference\" verify that the body of the corresponding part is empty and the Content-Location header is included that points to the output value."
+                                    ],
+                                    "name": "Abstract Test 43",
+                                    "testPurpose": "Validate that the server responds as expected when asynchronous execution is negotiated, more than one output is requested, the response type is raw and the output transmission is a mix of value and reference."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-async-document",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 43 /req/core/job-results-async-document The server SHALL response as per requirement /req/core/process-execute-sync-document.",
+                                            "uri": "/req/core/job-results-async-document"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Get a description of each process offered by the server using test /conf/core/process.",
+                                        "Inspect the description of each process and identify the subset of processes that support the async-execute job control option.",
+                                        "For each identified process construct an execute request according to test /conf/core/job-creation-request ensuring that asynchronous execution is negotiated according to test /conf/core/job-creation-auto-execution-mode and that the requested response type is document (i.e. \"response\": \"document\") according to requirement /req/core/job-creation-async-document.",
+                                        "If the server responds asynchronously periodically retrieve the status of the asynchronously execute job as per test /conf/core/job-op.",
+                                        "When the job status is successful, get the results as per test /conf/core/job-results and verify that they conform to requirement /req/core/job-results-async-document."
+                                    ],
+                                    "name": "Abstract Test 44",
+                                    "testPurpose": "Validate that the server responds as expected when the asynchronous execution is negotiated and the response type is document."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-failed",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-results-exception-no-such-job"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Issue an HTTP GET request to the URL '/jobs/{jobID}/results' using an invalid {jobID}.",
+                                        "Validate that the document was returned with a 404.",
+                                        "Validate that the document contains the exception type \"http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-job\".",
+                                        "Validate the document for all supported media types using the resources and tests identified in Schema and Tests for the Job Result for Non-existent Job"
+                                    ],
+                                    "name": "Abstract Test 45",
+                                    "testPurpose": "Validate that the job results retrieved using an invalid job identifier complies with the require structure and contents."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-exception-results-not-ready",
+                                    "requirements": [
+                                        {
+                                            "description": "",
+                                            "uri": "/req/core/job-results-exception-results-not-ready"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Create a job as per /req/core/job-creation-op and note the {jobID} assigned to the job; ensure that the job is long-running.",
+                                        "Issue an HTTP GET request to the URL '/jobs/{jobID}/results' before the job completes execution.",
+                                        "Validate that the document was returned with a 404.",
+                                        "Validate that the document contains the exception type \"http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/result-not-ready\".",
+                                        "Validate the document for all supported media types using the resources and tests identified in Schema and Tests for the Job Result for an Incomplete Job"
+                                    ],
+                                    "name": "Abstract Test 46",
+                                    "testPurpose": "Validate that the job results retrieved for an incomplete job complies with the require structure and contents."
+                                },
+                                {
+                                    "path": "/conf/core/job-results-failed",
+                                    "requirements": [
+                                        {
+                                            "description": "Requirement 46 /req/core/job-results-failed If the operation is executed on a failed job using a valid job identifier, the response SHALL have a HTTP error code that corresponds to the reason of the failure. The content of that response SHALL be based upon the OpenAPI 3.0 schema exception.yaml. The type of the exception SHALL correspond to the reason of the failure, e.g. InvalidParameterValue for invalid input data.",
+                                            "uri": "/req/core/job-results-failed"
+                                        }
+                                    ],
+                                    "testMethod": [
+                                        "Create a job as per /req/core/job-creation-op but arrange a priori that the job will fail; note the {jobID} assigned to the job.",
+                                        "Ensure that the failed job will not result in an HTTP error code of 404.",
+                                        "Issue an HTTP GET request to the URL '/jobs/{jobID}/results'.",
+                                        "Validate that the document was returned with a HTTP error code (4XX or 5XX).",
+                                        "Validate that the document contains an exception type that corresponds to the reason the job failed (e.g. InvalidParameterValue for invalid input data).",
+                                        "Validate the document for all supported media types using the resources and tests identified in Schema and Tests for the Job Result for a Failed Job"
+                                    ],
+                                    "name": "Abstract Test 47",
+                                    "testPurpose": "Validate that the job results for a failed job complies with the require structure and contents."
+                                }
+                            ],
+                            "name": "A.2.6.3. Job results /jobs/{jobID}/results",
+                            "abstractTestGroups": []
+                        }
+                    ]
+                }
+            ],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/core"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/ogc-process-description",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/ogc-process-description/json-encoding",
+                    "requirements": [
+                        {
+                            "description": "Requirement 47 /req/ogc-process-description/json-encoding A JSON-encoded OGC process description SHALL validate against the JSON Schema: process.yaml.",
+                            "uri": "/req/ogc-process-description/json-encoding"
+                        }
+                    ],
+                    "testMethod": [
+                        "Retrieve a description of each process according to test /conf/core/process.",
+                        "For each process, verify the contents of the response body validate against the JSON Schema: process.yaml."
+                    ],
+                    "name": "Abstract Test 48",
+                    "testPurpose": "Verify that a JSON-encoded OGC Process Description complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/ogc-process-description/inputs-def",
+                    "requirements": [
+                        {
+                            "description": "Requirement 48 /req/ogc-process-description/inputs-def A Each process input definition SHALL be listed in the inputs section according to the JSON Schema: inputDescription.yaml. B The key of each process input in the inputs section of the process definition SHALL be the identifier for that input.",
+                            "uri": "/req/ogc-process-description/inputs-def"
+                        }
+                    ],
+                    "testMethod": [
+                        "Retrieve a description of each process according to test /conf/core/process.",
+                        "For each process, verify that the definition of the inputs confroms to the JSON Schema: inputDescription.yaml."
+                    ],
+                    "name": "Abstract Test 49",
+                    "testPurpose": "Verify that the definition of inputs for each process complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/ogc-process-description/input-def",
+                    "requirements": [
+                        {
+                            "description": "Requirement 49 /req/ogc-process-description/input-def A The schema of each process input value SHALL be specified using the schema parameter. B The value of the schema parameter SHALL be a JSON fragment that validates according to the JSON Schema: schema.yaml. C Servers SHALL use this schema fragment to validate the components of a process input in an execute request that is an instance of inputValue.yaml.",
+                            "uri": "/req/ogc-process-description/input-def"
+                        }
+                    ],
+                    "testMethod": ["For each input identified according to the test /conf/ogc-process-description/inputs-def verify that the value of the schema key, that defines the input, validates according to the JSON Schema: schema.yaml."],
+                    "name": "Abstract Test 50",
+                    "testPurpose": "Verify that the definition of each input for each process complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/ogc-process-description/input-mixed-type",
+                    "requirements": [
+                        {
+                            "description": "Requirement 51 /req/ogc-process-description/input-mixed-type A An input that can be of mixed type SHALL be defined using the oneOf JSON Schema keyword. B Each sub-schema SHALL be a JSON fragment that validates according to the JSON Schema: schema.yaml. C The first sub-schema in the oneOf array SHALL be considered the default format.",
+                            "uri": "/req/ogc-process-description/input-mixed-type"
+                        }
+                    ],
+                    "testMethod": [
+                        "Retrieve a description of each process according to test /conf/core/process.",
+                        "For each process identify if the process has one or more inputs of mixed type.",
+                        "For each sub-schema of each identified input, verify that the definition validates according to the JSON Schema: schema.yaml."
+                    ],
+                    "name": "Abstract Test 51",
+                    "testPurpose": "Validate that each input of mixed type complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/ogc-process-description/outputs-def",
+                    "requirements": [
+                        {
+                            "description": "Requirement 52 /req/ogc-process-description/outputs-def A Each process output definition SHALL be listed in the outputs section according to the JSON Schema: outputDescription.yaml. B The key of each process input in the output section of the process definition SHALL be the identifier for that output.",
+                            "uri": "/req/ogc-process-description/outputs-def"
+                        }
+                    ],
+                    "testMethod": [
+                        "Retrieve a description of each process according to test /conf/core/process.",
+                        "For each process, verify that the definition of the outputs confroms to the JSON Schema: outputDescription.yaml."
+                    ],
+                    "name": "Abstract Test 52",
+                    "testPurpose": "Verify that the definition of outputs for each process complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/ogc-process-description/output-def",
+                    "requirements": [
+                        {
+                            "description": "Requirement 53 /req/ogc-process-description/output-def A The schema of each process output SHALL be specified using the schema parameter. B The value of the schema parameter SHALL be a JSON fragment that validates according to the JSON Schema: schema.yaml.",
+                            "uri": "/req/ogc-process-description/output-def"
+                        }
+                    ],
+                    "testMethod": ["For each output identified according to the test /conf/ogc-process-description/outputs-def verify that the value of the schema key, that defines the output, validates according to the JSON Schema: schema.yaml."],
+                    "name": "Abstract Test 53",
+                    "testPurpose": "Verify that the definition of each output for each process complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/ogc-process-description/output-mixed-type",
+                    "requirements": [
+                        {
+                            "description": "Requirement 54 /req/ogc-process-description/output-mixed-type A An output that can be of mixed type SHALL be defined using the oneOf JSON Schema keyword. B Each sub-schema SHALL be a JSON fragment that validates according to the JSON Schema: schema.yaml. C The first sub-schema in the oneOf array SHALL be considered the default format.",
+                            "uri": "/req/ogc-process-description/output-mixed-type"
+                        }
+                    ],
+                    "testMethod": [
+                        "Retrieve a description of each process according to test /conf/core/process.",
+                        "For each process identify if the process has one or more output of mixed type denoted by the use of the oneOf JSON Schema keyword.",
+                        "For each sub-schema or each identified output, verify that the definition validates according to the JSON Schema: schema.yaml."
+                    ],
+                    "name": "Abstract Test 54",
+                    "testPurpose": "Validate that each output of mixed type complies with the required structure and contents."
+                }
+            ],
+            "name": "A.3. Conformance Class OGC Process Description",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/ogc-process-description"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/json/definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 55 /req/json/definition 200-responses of the server SHALL support the following media type: application/json",
+                            "uri": "/req/json/definition"
+                        }
+                    ],
+                    "testMethod": [
+                        "A resource is requested with response media type of application/json.",
+                        "All 200 responses SHALL support the following media types: application/json for all resources."
+                    ],
+                    "name": "Abstract Test 55",
+                    "testPurpose": "Verify support for JSON."
+                }
+            ],
+            "name": "A.4. Conformance Class JSON",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/core"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/html/content",
+                    "requirements": [
+                        {
+                            "description": "Requirement 57 /req/html/content Every 200-response of the server with the media type \"text/html\" SHALL be a HTML 5 document that includes the following information in the HTML body: all information identified in the schemas of the Response Object in the HTML <body/>, and all links in HTML <a/> elements in the HTML <body/>.",
+                            "uri": "/req/html/content"
+                        }
+                    ],
+                    "testMethod": [
+                        "Validate that the document is an HTML 5 document",
+                        "Manually inspect the document and verify that the HTML body contains:",
+                        "all information in the schemas of the Response Object in the HTML <body/>",
+                        "all links in HTML <a/> elements in the HTML <body/>."
+                    ],
+                    "name": "Abstract Test 56",
+                    "testPurpose": "Verify the content of an HTML document given an input document and schema."
+                },
+                {
+                    "path": "/conf/html/definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 56 /req/html/definition Every 200-response of an operation of the server SHALL support the media type text/html.",
+                            "uri": "/req/html/definition"
+                        }
+                    ],
+                    "testMethod": ["Verify that every 200 response of every operation of the API where HTML was requested is of media type text/html."],
+                    "name": "Abstract Test 57",
+                    "testPurpose": "Verify support for HTML"
+                }
+            ],
+            "name": "A.5. Conformance Class HTML",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/html"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/oas30",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/oas30/completeness",
+                    "requirements": [
+                        {
+                            "description": "Requirement 61 /req/oas30/completeness The OpenAPI definition SHALL specify for each operation all HTTP Status Codes and Response Objects that the server uses in responses. This includes the successful execution of an operation as well as all error situations that originate from the server.",
+                            "uri": "/req/oas30/completeness"
+                        }
+                    ],
+                    "testMethod": ["Verify that for each operation, the OpenAPI document describes all HTTP Status Codes and Response Objects that the API uses in responses."],
+                    "name": "Abstract Test 58",
+                    "testPurpose": "Verify the completeness of an OpenAPI document."
+                },
+                {
+                    "path": "/conf/oas30/exceptions-codes",
+                    "requirements": [
+                        {
+                            "description": "Requirement 62 /req/oas30/exceptions-codes For error situations that originate from the server, the API definition SHALL cover all applicable HTTP Status Codes.",
+                            "uri": "/req/oas30/exceptions-codes"
+                        }
+                    ],
+                    "testMethod": ["Verify that for each operation, the OpenAPI document describes all HTTP Status Codes that may be generated."],
+                    "name": "Abstract Test 59",
+                    "testPurpose": "Verify that the OpenAPI document fully describes potential exception codes."
+                },
+                {
+                    "path": "/conf/oas30/oas-definition-1",
+                    "requirements": [
+                        {
+                            "description": "Requirement 58 /req/oas30/oas-definition-1 A An OpenAPI definition in JSON using the media type application/vnd.oai.openapi+json;version=3.0 and a HTML version of the API definition using the media type text/html SHALL be available.",
+                            "uri": "/req/oas30/oas-definition-1"
+                        }
+                    ],
+                    "testMethod": [
+                        "Verify that an OpenAPI definition in JSON is available using the media type application/vnd.oai.openapi+json;version=3.0 and link relation service-desc",
+                        "Verify that an HTML version of the API definition is available using the media type text/html and link relation service-doc."
+                    ],
+                    "name": "Abstract Test 60",
+                    "testPurpose": "Verify that JSON and HTML versions of the OpenAPI document are available."
+                },
+                {
+                    "path": "/conf/oas30/oas-definition-2",
+                    "requirements": [
+                        {
+                            "description": "Requirement 59 /req/oas30/oas-definition-2 The JSON representation SHALL conform to the OpenAPI Specification, version 3.0.",
+                            "uri": "/req/oas30/oas-definition-2"
+                        }
+                    ],
+                    "testMethod": ["Verify that the JSON representation conforms to the OpenAPI Specification, version 3.0."],
+                    "name": "Abstract Test 61",
+                    "testPurpose": "Verify that the OpenAPI document is valid JSON."
+                },
+                {
+                    "path": "/conf/oas30/oas-impl",
+                    "requirements": [
+                        {
+                            "description": "Requirement 60 /req/oas30/oas-impl The server SHALL implement all capabilities specified in the OpenAPI definition.",
+                            "uri": "/req/oas30/oas-impl"
+                        }
+                    ],
+                    "testMethod": [
+                        "Construct a path from each URL template including all server URL options and all enumerated path parameters.",
+                        "For each path defined in the OpenAPI document, validate that the path performs in accordance with the API definition and the API-Features standard."
+                    ],
+                    "name": "Abstract Test 62",
+                    "testPurpose": "Verify that all capabilities specified in the OpenAPI definition are implemented by the API."
+                },
+                {
+                    "path": "/conf/oas30/security",
+                    "requirements": [
+                        {
+                            "description": "Requirement 63 /req/oas30/security For cases, where the operations of the server are access-controlled, the security scheme(s) SHALL be documented in the OpenAPI definition.",
+                            "uri": "/req/oas30/security"
+                        }
+                    ],
+                    "testMethod": [
+                        "Identify all authentication protocols supported by the API.",
+                        "Validate that each authentication protocol is described in the OpenAPI document by a Security Schema Object and its use is specified by a Security Requirement Object."
+                    ],
+                    "name": "Abstract Test 63",
+                    "testPurpose": "Verify that any authentication protocols implemented by the API are documented in the OpenAPI document."
+                }
+            ],
+            "name": "A.6. Conformance Class OpenAPI 3.0",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/oas30"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/job-list/job-list-op",
+                    "requirements": [
+                        {
+                            "description": "Requirement 64 /req/job-list/job-list-op The server SHALL support the HTTP GET operation at the path /jobs.",
+                            "uri": "/req/job-list/job-list-op"
+                        }
+                    ],
+                    "testMethod": [
+                        "Issue an HTTP GET request to the URL /jobs.",
+                        "Validate the contents of the returned document using test /conf/job-list/job-list-success."
+                    ],
+                    "name": "Abstract Test 64",
+                    "testPurpose": "Validate that information about jobs can be retrieved from the expected location."
+                },
+                {
+                    "path": "/conf/job-list/type-definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 65 /req/job-list/type-definition A The operation SHALL support a parameter type with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: type\nin: query\nrequired: false\nschema:\n  type: array\n  items:\n    type: string",
+                            "uri": "/req/job-list/type-definition"
+                        }
+                    ],
+                    "testMethod": ["Verify that the type query parameter complies with its definition in requirement /req/job-list/type-definition."],
+                    "name": "Abstract Test 65",
+                    "testPurpose": "Validate that the type query parameter is constructed correctly."
+                },
+                {
+                    "path": "/conf/job-list/processID-definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 68 /req/job-list/processID-definition A The operation SHALL support a parameter processID with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: processID\nin: query\nrequired: false\nschema:\n  type: array\n  items:\n    type: string",
+                            "uri": "/req/job-list/processID-definition"
+                        }
+                    ],
+                    "testMethod": ["Verify that the processID query parameter complies with its definition in requirement /req/job-list/processID-definition."],
+                    "name": "Abstract Test 66",
+                    "testPurpose": "Validate that the processID query parameter is constructed correctly."
+                },
+                {
+                    "path": "/conf/job-list/status-definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 70 /req/job-list/status-definition A The operation SHALL support a parameter status with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: status\nin: query\nrequired: false\nschema:\n  type: array\n  items:\n    type: string",
+                            "uri": "/req/job-list/status-definition"
+                        }
+                    ],
+                    "testMethod": ["Verify that the status query parameter complies with its definition in requirement /req/job-list/status-definition."],
+                    "name": "Abstract Test 67",
+                    "testPurpose": "Validate that the status query parameter is constructed correctly."
+                },
+                {
+                    "path": "/conf/job-list/datetime-definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 72 /req/job-list/datetime-definition A The operation SHALL support a parameter datetime with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: datetime\nin: query\nrequired: false\nschema:\n  type: string B The value of the datetime parameter is either a date-time value or a time interval. The parameter value SHALL conform to the following syntax (using ABNF): interval-closed     = date-time \"/\" date-time\ninterval-open-start = [\"..\"] \"/\" date-time\ninterval-open-end   = date-time \"/\" [\"..\"]\ninterval            = interval-closed / interval-open-start / interval-open-end\ndatetime            = date-time / interval C The syntax of date-time is specified by RFC 3339, 5.6. D Open ranges in time intervals at the start or end are supported using a double-dot (..) or an empty string for the start/end.",
+                            "uri": "/req/job-list/datetime-definition"
+                        }
+                    ],
+                    "testMethod": ["Verify that the datetime query parameter complies with its definition in requirement /req/job-list/datetime-definition."],
+                    "name": "Abstract Test 68",
+                    "testPurpose": "Validate that the datetime query parameter is constructed correctly."
+                },
+                {
+                    "path": "/conf/job-list/duration-definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 74 /req/job-list/duration-definition A The operation SHALL support a parameter minDuration with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: minDuration\nin: query\nrequired: false\nschema:\n  type: array\n  items:\n    type: integer B The operation SHALL support a parameter maxDuration with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: maxDuration\nin: query\nrequired: false\nschema:\n  type: array\n  items:\n    type: integer\nstyle: form\nexplode: false",
+                            "uri": "/req/job-list/duration-definition"
+                        }
+                    ],
+                    "testMethod": [
+                        "Verify that the minDuration query parameter complies with its definition in requirement /req/job-list/duration-definition, A.",
+                        "Verify that the maxDuration query parameter complies with its definition in requirement /req/job-list/duration-definition, B."
+                    ],
+                    "name": "Abstract Test 69",
+                    "testPurpose": "Validate that the minDuration and maxDuration query parameter are constructed correctly."
+                },
+                {
+                    "path": "/conf/job-list/limit-definition",
+                    "requirements": [
+                        {
+                            "description": "Requirement 76 /req/job-list/limit-definition A The operation SHALL support a parameter limit with the following characteristics (using an OpenAPI Specification 3.0 fragment): name: limit\nin: query\nrequired: false\nschema:\n  type: integer\n  minimum: 1\n  maximum: 10000\n  default: 10",
+                            "uri": "/req/job-list/limit-definition"
+                        }
+                    ],
+                    "testMethod": [
+                        "Verify that the limit query parameter complies with its definition in requirement /req/job-list/limit-definition.",
+                        "Note that the API can define different values for \"minimum\", \"maximum\" and \"default\"."
+                    ],
+                    "name": "Abstract Test 70",
+                    "testPurpose": "Validate that the limit query parameter is constructed correctly."
+                },
+                {
+                    "path": "/conf/job-list/job-list-success",
+                    "requirements": [
+                        {
+                            "description": "Requirement 78 /req/job-list/job-list-success A successful execution of the operation SHALL be reported as a response with a HTTP status code 200. The content of that response SHALL be based upon the OpenAPI 3.0 schema jobList.yaml.",
+                            "uri": "/req/job-list/job-list-success"
+                        }
+                    ],
+                    "testMethod": [
+                        "Validate that a document was returned with an HTTP status code of 200.",
+                        "Validate the job list content for all supported media types using the resources and tests identified in Schema and Tests for Job List Content"
+                    ],
+                    "name": "Abstract Test 71",
+                    "testPurpose": "Validate that the job list content complies with the required structure and contents."
+                },
+                {
+                    "path": "/conf/job-list/links",
+                    "requirements": [
+                        {
+                            "description": "Requirement 79 /req/job-list/links A A 200-response SHALL include the following links: a link to this response document (relation: self), a link to the response document in every other media type supported by the service (relation: alternate).",
+                            "uri": "/req/job-list/links"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op.",
+                        "Verify that the links section of the response contains a link with rel=self.",
+                        "Verify that the links section of the response contains a link with rel=alternate for each response representation the service claims to support in its conformance document."
+                    ],
+                    "name": "Abstract Test 72",
+                    "testPurpose": "Validate that the proper links are included in a response."
+                },
+                {
+                    "path": "/conf/job-list/type-response",
+                    "requirements": [
+                        {
+                            "description": "Requirement 66 /req/job-list/type-response A If the parameter is provided and its value is process then only jobs created by an OGC processes API SHALL be included in the response. B The the parameter is omitted, than all jobs SHALL be included in the response.",
+                            "uri": "/req/job-list/type-response"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the type query parameter to the request.",
+                        "Inspect the value of the type property for each job listed in the response.",
+                        "Verify that that value of the type property matches one of the values specified for the type query parameter."
+                    ],
+                    "name": "Abstract Test 73",
+                    "testPurpose": "Validate that the type query parameter is processed correctly."
+                },
+                {
+                    "path": "/conf/job-list/processID-mandatory",
+                    "requirements": [
+                        {
+                            "description": "Requirement 67 /req/job-list/processID-mandatory A If the server supports this conformance class, the optional processID property in the statusInfo.yaml schema SHALL be mandatory.",
+                            "uri": "/req/job-list/processID-mandatory"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op.",
+                        "Verify that each job includes a processID property."
+                    ],
+                    "name": "Abstract Test 74",
+                    "testPurpose": "Validate that the processID property is present in every job."
+                },
+                {
+                    "path": "/conf/job-list/processID-response",
+                    "requirements": [
+                        {
+                            "description": "",
+                            "uri": "/req/job-list/processID-response"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the processID parameter to the request.",
+                        "Inspect the value of the processID property for each job listed in the response.",
+                        "Verify that that value of the processID property matches one of the values specified for the processID query parameter."
+                    ],
+                    "name": "Abstract Test 75",
+                    "testPurpose": "Validate that the processID query parameter is processed correctly."
+                },
+                {
+                    "path": "/conf/job-list/status-response",
+                    "requirements": [
+                        {
+                            "description": "Requirement 71 /req/job-list/status-response If the parameter is specified with the operation, only jobs that have a value for the status property (see: statusInfo.yaml) that matches one of the specified values of the status parameter SHALL be included in the response. Requirement 75 /req/job-list/status-response Condition If the status parameter is not specified then only jobs that are running (status: running) or have completed execution (successful, failed or dismissed) SHALL be considered for inclusion in the response. If the status parameter is specified, then only jobs with the specified status SHALL be considered for inclusion in the response. A If only the minDuration parameter is specified with the operation, only jobs with the appropriate status and a duration of at least the specified minDuration value SHALL be included in the response. B If only the maxDuration parameter is specified with the operation, only jobs with the appropriate status and a duration of no longer than the specified maxDuration value SHALL be included in the response. C If both the minDuration and maxDuration parameters are specified with the operation, only jobs with the appropriate status and a duration of at least the specified minDuration value and no longer than the specified maxDuration value SHALL be included in the response. D The value of the minDuration and maxDuration parameters SHALL be number of seconds. E For running jobs, the duration SHALL be computed at runtime as the time the operation was invoked minus the value of the started parameter (see: statusInfo.yaml). F For completed jobs, the duration SHALL be computed as the value of the finished parameter minus the value of the started parameter (see: statusInfo.yaml). G Jobs for which runtime statistics are not included in the status information or are incomplete for computing the duration of the job SHALL be omitted from the response.",
+                            "uri": "/req/job-list/status-response"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the status query parameter to the request.",
+                        "Inspect the value of the status property (see: statusInfo.yaml) for each job listed in the response.",
+                        "Verify that the value of the status property matches one of the values specified for the status query parameter."
+                    ],
+                    "name": "Abstract Test 76",
+                    "testPurpose": "Validate that the status query parameter is processed correctly."
+                },
+                {
+                    "path": "/conf/job-list/datetime-response",
+                    "requirements": [
+                        {
+                            "description": "Requirement 73 /req/job-list/datetime-response If the parameter is specified with the operation, only jobs that have a value for the created property (see: statusInfo.yaml that intersects the temporal information in the datetime parameter SHALL be included in the response.",
+                            "uri": "/req/job-list/datetime-response"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the datatime query parameter to the request.",
+                        "Inspect the value of the created (see: statusInfo.yaml) property for each job listed in the response.",
+                        "Verify that the value of the created temporally intersects with the value specified for the datetime query parameter."
+                    ],
+                    "name": "Abstract Test 77",
+                    "testPurpose": "Validate that the datetime query parameter is processed correctly."
+                },
+                {
+                    "path": "/conf/job-list/duration-response",
+                    "requirements": [
+                        {
+                            "description": "Requirement 75 /req/job-list/status-response Condition If the status parameter is not specified then only jobs that are running (status: running) or have completed execution (successful, failed or dismissed) SHALL be considered for inclusion in the response. If the status parameter is specified, then only jobs with the specified status SHALL be considered for inclusion in the response. A If only the minDuration parameter is specified with the operation, only jobs with the appropriate status and a duration of at least the specified minDuration value SHALL be included in the response. B If only the maxDuration parameter is specified with the operation, only jobs with the appropriate status and a duration of no longer than the specified maxDuration value SHALL be included in the response. C If both the minDuration and maxDuration parameters are specified with the operation, only jobs with the appropriate status and a duration of at least the specified minDuration value and no longer than the specified maxDuration value SHALL be included in the response. D The value of the minDuration and maxDuration parameters SHALL be number of seconds. E For running jobs, the duration SHALL be computed at runtime as the time the operation was invoked minus the value of the started parameter (see: statusInfo.yaml). F For completed jobs, the duration SHALL be computed as the value of the finished parameter minus the value of the started parameter (see: statusInfo.yaml). G Jobs for which runtime statistics are not included in the status information or are incomplete for computing the duration of the job SHALL be omitted from the response.",
+                            "uri": "/req/job-list/duration-response"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the minDuration query parameter to the request.",
+                        "Compute the duration of each job listed in the response document as per requirements /req/job-list/status-response, E or F depending on the current status of the job.",
+                        "Verify that the computed duration of each job listed in the response is at least as long as the specified value of the minDuration query parameter.",
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the maxDuration query parameter to the request.",
+                        "Compute the duration of each job listed in the response document as per requirements /req/job-list/status-response, E or F depending on the current status of the job.",
+                        "Verify that the computed duration of each job listed in the response is no longer than the specified value of the maxDuration query parameter.",
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the minDuration and maxDuration query parameters to the request.",
+                        "Compute the duration of each job listed in the response document as per requirements /req/job-list/status-response, E or F depending on the current status of the job.",
+                        "Verify that the computed duration of each job listed in the response is at least as long as the specified value of the minDuration query parameter AND no longer than the value of the maxDuration query parameter."
+                    ],
+                    "name": "Abstract Test 78",
+                    "testPurpose": "Validate that the minDuration and maxDuration query parameter are processed correctly."
+                },
+                {
+                    "path": "/conf/job-list/limit-response",
+                    "requirements": [
+                        {
+                            "description": "Requirement 77 /req/job-list/limit-response A The response SHALL not contain more jobs than specified by the optional limit parameter. B If the API definition specifies a maximum value for limit parameter, the response SHALL not contain more jobs than this maximum value.",
+                            "uri": "/req/job-list/limit-response"
+                        }
+                    ],
+                    "testMethod": [
+                        "Get a list of jobs as per test /conf/job-list/job-list-op and append the limit query parameter to the request.",
+                        "Count the number of jobs listed in the response.",
+                        "Verify that this count is not greater than the value specified by the limit parameter.",
+                        "If the API definition specifies a maximum value for limit parameter, verify that the count does not exceed this maximum value."
+                    ],
+                    "name": "Abstract Test 79",
+                    "testPurpose": "Validate that the limit query parameter is processed correctly."
+                }
+            ],
+            "name": "A.7. Conformance Class Job list",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/core"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/callback",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/callback/job-callback",
+                    "requirements": [
+                        {
+                            "description": "Requirement 80 /req/callback/job-callback The server SHALL support callback functions for jobs.",
+                            "uri": "/req/callback/job-callback"
+                        }
+                    ],
+                    "testMethod": [
+                        "Configure a URL endpoint to accept message body from the server.",
+                        "Create an asynchronous execute request that includes the optional subscriber key (see execute.yaml.",
+                        "Execute the asynchronous job using test /conf/core/job-creation-request.",
+                        "Validate the job results are received by the specified callback URL."
+                    ],
+                    "name": "Abstract Test 80",
+                    "testPurpose": "Validate the passing of a subscriber-URL in an execute request."
+                }
+            ],
+            "name": "A.8. Conformance Class Callback",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/core"
+        },
+        {
+            "identifier": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/dismiss",
+            "abstractTestCases": [
+                {
+                    "path": "/conf/dismiss/job-dismiss-op",
+                    "requirements": [
+                        {
+                            "description": "Requirement 81 /req/dismiss/job-dismiss-op The server SHALL support the HTTP DELETE operation at the path /jobs/{jobID}.",
+                            "uri": "/req/dismiss/job-dismiss-op"
+                        }
+                    ],
+                    "testMethod": [
+                        "Create an asynchronous job as per test /conf/core/job-creation-request*; not the job identifier, {jobID}, assigned to the job.",
+                        "Issue an HTTP DELETE operation to the URL '/jobs/{jobID}'.",
+                        "Validate the contents of the returned document using test /conf/dismiss/job-dismiss-success."
+                    ],
+                    "name": "Abstract Test 81",
+                    "testPurpose": "Validate that a running job can be dismissed."
+                },
+                {
+                    "path": "/conf/dismiss/job-dismiss-success",
+                    "requirements": [
+                        {
+                            "description": "Requirement 82 /req/dismiss/job-dismiss-success A successful execution of the operation SHALL be reported as a response with a HTTP status code 200. The content of that response SHALL be based upon the OpenAPI 3.0 schema statusInfo.yaml. The status SHALL be set to \"dismissed\".",
+                            "uri": "/req/dismiss/job-dismiss-success"
+                        }
+                    ],
+                    "testMethod": [
+                        "Validate that a document was returned with an HTTP status code of 200.",
+                        "Validate that the status is the response is set to \"dismissed\".",
+                        "Validate the process list content for all supported media types using the resources and tests identified in Schema and Tests for Dismissing a Job"
+                    ],
+                    "name": "Abstract Test 82",
+                    "testPurpose": "Validate that the content returned when dismissing a job complies with the required structure and contents."
+                }
+            ],
+            "name": "A.9. Conformance Class Dismiss",
+            "targetType": "Web API",
+            "abstractTestGroups": [],
+            "requirementsClass": "http://www.opengis.net/spec/ogcapi-processes-1/1.0/req/core"
+        }
+    ]
+}

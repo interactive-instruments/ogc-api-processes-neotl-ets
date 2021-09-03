@@ -1,0 +1,50 @@
+GetRequest "Request /processes JSON" {
+    id: requestsProcesses1
+    description: "Issue a HTTP GET request with Accept-Header 'application/json' on the path /processes"
+
+    path: "processes"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+
+GetRequest "Request unknown Process ID" {
+    id: requestsProcesses2Unknown
+    description: "Issue a HTTP GET request with an unknown process ID"
+
+    path: "processes/TEST_THIS_ID_MUST_NOT_EXIST"
+
+    headers:
+        - "Accept" = ${acceptHeader}
+}
+
+GetRequest "Request /processes HTML" {
+    id: requestsProcesses3Html
+    description: "Issue a HTTP GET request with Accept-Header 'text/html' on the path /processes"
+
+    path: "processes"
+
+    headers:
+        - "Accept" = "text/html"
+}
+
+Generator "Generate Process IDs" {
+    id: generatorsProcessesGenerateIDs
+
+
+    from RESPONSE
+        as ${processId} query $..id
+}
+
+GetRequest "Get Process Description" {
+    id: requestsProcessesGetProcessDescription
+
+    parameters:
+        - ${processId} is required
+
+    path: "processes/${processId}"
+
+    headers:
+        - "Accept" = "application/json"
+}

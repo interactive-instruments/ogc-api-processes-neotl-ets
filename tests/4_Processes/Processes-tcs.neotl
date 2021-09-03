@@ -1,0 +1,212 @@
+import "../../shared/Assertions.neotl"
+import "Actions.neotl"
+
+TestCase "Validate /processes path" {
+    // /conf/core/process-list
+    // /conf/core/process-list-success
+    id: core1ProcessesTc1
+    description: "Validate that information about the processes can be retrieved from the 
+        expected location and that it complies with the required structure and contents."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Request /processes" {
+        id: core1ProcessesTc1Step1
+        description: "Validate /processes path"
+
+        given:
+        when: Request requestsProcesses1 executed
+        then:
+            - AssertionGroup responseJsonReceived must pass
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/processList.yaml"
+                validates
+            }
+    }
+}
+
+TestCase "Validate /processes path" {
+    // /conf/core/pl-limit-definition
+    id: core1ProcessesTcLimit
+    description: "Validate that the limit query parameter is constructed correctly."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    // Todo
+}
+
+
+TestCase "Validate /processes HTML" {
+    // /conf/core/process-list-success
+    id: core1ProcessesTc2
+    description: "Check if the returned document is a valid HTML5 document"
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Request /processes" {
+        id: core1ProcessesTc2Step1
+        description: "Validate /processes path"
+
+        given:
+        when: Request requestsProcesses3Html executed
+        then:
+            - AssertionGroup responseHtmlReceived must pass
+    }
+}
+
+TestCase "Process descriptions" {
+    // /conf/core/process
+    // /conf/core/process-success
+
+
+    id: core1ProcessesTc3
+    description: "Validate that a process description can be retrieved from the expected location."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Generate Requests" {
+        id: core1ProcessesTc3Step1
+        description: "Generate Process Description Requests"
+
+        given:
+            - Response from core1ProcessesTc1Step1
+        when: Generator generatorsProcessesGenerateIDs executed
+        then:
+            - Assert JSON { 
+                ${processId} exists
+                otherwise FAIL with "No IDs in process list found"
+             }
+    }
+
+
+    ValidationStep "Validate Process Description" {
+        id: core1ProcessesTc3Step2
+        description: "Validated responses of the generated process descriptions requests"
+
+        given:
+            - One ${processId} of ${processIds} from core1ProcessesTc3Step1
+        when: Request requestsProcessesGetProcessDescription executed
+        then:
+            - AssertionGroup responseJsonReceived must pass
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/process.yaml"
+                validates
+            }
+            - Assert JSON {
+                $.id equals ${processId}
+                otherwise FAIL with 
+                "The id in the returned response does not match the requested id"
+            }
+    }
+}
+
+TestCase "Validate no-such-process JSON exception" {
+    // /conf/core/process-exception-no-such-process
+    id: core1ProcessesTc4
+    description: "Validate that an invalid process identifier is handled correctly."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Request unknown Process ID JSON" {
+        id: core1ProcessesTc4Step1
+        description: "Request Process with unknown ID"
+
+        given:
+        when: 
+            Request requestsProcesses2Unknown executed with:
+                - ${acceptHeader} = "application/json"
+        then:
+            - Assert HTTP { statusCode "404" }
+            - Assert HTTP { contentType "application/json" }
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/exception.yaml"
+                validates
+            }
+            - Assertion checkProcessExceptionType must pass
+    }
+
+    ValidationStep "Request unknown Process ID HTML" {
+        id: core1ProcessesTc4Step1
+        description: "Request Process with unknown ID"
+
+        given:
+        when: 
+            Request requestsProcesses2Unknown executed with:
+                - ${acceptHeader} = "text/html"
+        then:
+            - Assert HTTP { statusCode "404" }
+            - Assert HTTP { contentType "text/html" }
+    }
+}
+
+TestCase "Validate self link" {
+    // /conf/core/pl-links
+    id: core1ProcessesTc7
+    description: "Validate that the self link and the alternative link is included in the process description response."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Validate the self link" {
+        id: core1ProcessesTc7Step1
+        description: "Request Process with unknown ID"
+
+        given:
+            - Response from core1ProcessesTc1Step1
+        when: 
+        then:
+            - Assertion linksSectionExists must pass
+            - Assert JSON { 
+                $.links[?(@.rel == 'self')] exists
+                otherwise FAIL with "The response does not contain a links section with a 
+                    link to this response document (relation: self)"
+            }
+    }
+
+    ValidationStep "Validate HTML link" {
+        id: core1ProcessesTc7Step2
+        description: "Validate HTML link"
+
+        given:
+            - Response from core1ProcessesTc1Step1
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+        when: 
+        then:
+            - Assertion linksSectionExists must pass
+            - Assert JSON { 
+                $.links[?(@.rel == 'alternate' && @.type == 'text/html')] exists
+                otherwise FAIL with "The response does not contain a links section 
+                    with a link to the alternate HTML document (relation: alternate)"
+            }
+    }
+
+}
+
+Assertion "Link section exists" {
+    id: linksSectionExists
+
+    JSON {
+        $.links exists
+        otherwise FAIL with "The links section is missing"
+    }
+}

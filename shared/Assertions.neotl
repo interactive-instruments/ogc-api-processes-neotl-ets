@@ -1,0 +1,25 @@
+AssertionGroup "JSON received" {
+    id: responseJsonReceived
+
+    assertions:
+        - Assert HTTP { statusCode "200" }
+        - Assert HTTP { contentType "application/json" }
+}
+
+AssertionGroup "HTML received" {
+    id: responseHtmlReceived
+
+    assertions:
+        - Assert HTTP { statusCode "200" }
+        - Assert HTTP { contentType "text/html" }
+}
+
+Assertion "Check Exception" {
+    id: checkProcessExceptionType
+
+    JSON {
+        $.type equals "http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-process"
+        otherwise FAIL with 
+        "The id in the returned response does not match the requested id"
+    }
+}

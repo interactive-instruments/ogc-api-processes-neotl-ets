@@ -1,0 +1,44 @@
+import "tests/1_Landing/Landing-tcs.neotl"
+import "tests/2_API/Api-tcs.neotl"
+import "tests/3_Conformance/Conformance-tcs.neotl"
+import "tests/4_Processes/Processes-tcs.neotl"
+import "tests/5_Jobs/Jobs-tcs.neotl"
+
+TestSuite "OGC API - Processes" {
+    id: org.opengis.ets.ogcapi.processes
+    version: 0.8.0-snapshot
+
+    description: "Executable Test Suite 
+            for validating Web APIs that implement the 
+            'OGC API - Processes - Part 1: Core' standard. The Test Suites are 
+            based on the normative Abstract Test Suites from Annex A of the
+            OGC Implementation Specification draft 1.0-draft.7-SNAPSHOT"
+
+   references:
+        - "OGC Implementation Specification"
+            "https://docs.ogc.org/DRAFTS/18-062.html"
+            ImplementationSpecification
+        - "Repository"
+            "https://etf.interactive-instruments.de/ogc/ogcapi-processes"
+            TestCodeRepository
+
+    executes:
+        // core1.landing.tc1
+        - core1LandingTc1
+        - core1LandingTc2
+        - coreApiTc1
+        - coreConformanceTc1
+        - coreConformanceTc2
+        - coreConformanceTc3
+        - core1ProcessesTc1
+        - core1ProcessesTc2
+        - core1ProcessesTc3
+        - core1ProcessesTc4
+        - core1JobsTc1
+        - core1JobsTc2
+        - core1JobsTc3
+        
+    defines:
+        // See https://github.com/opengeospatial/ogcapi-processes/tree/master/core/openapi/schemas
+        - URL ${schemaUrl} = "https://raw.githubusercontent.com/opengeospatial/ogcapi-processes/master/core/openapi/schemas"
+}

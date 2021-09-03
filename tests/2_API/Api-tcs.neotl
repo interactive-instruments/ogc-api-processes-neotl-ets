@@ -1,0 +1,29 @@
+import "../../shared/Assertions.neotl"
+import "Requests.neotl"
+
+TestCase "Validate /api path" {
+    // /conf/core/api-definition-op
+    // /conf/core/api-definition-success
+    id: coreApiTc1
+    description: "Validate that the API Definition document can be retrieved from the expected 
+        location and that it complies with the required structure and contents."
+    references:
+        - "API Definition /api"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
+            AbstractTestCase
+
+    ValidationStep "Request JSON Landing Page" {
+        id: core.api.tc1.step
+        description: "Request an JSON document with an Accept application/json header"
+
+        given:
+
+        when: Request requestsApi executed
+
+        then:
+            - Assert HTTP { statusCode "200" }
+            - Assert OpenAPI3 { specification validates }
+    }
+}
+
+

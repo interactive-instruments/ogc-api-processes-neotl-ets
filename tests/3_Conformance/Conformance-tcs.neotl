@@ -1,0 +1,88 @@
+import "Assertions.neotl"
+import "Actions.neotl"
+import "../1_Landing/Actions.neotl"
+import "../../shared/Assertions.neotl"
+
+TestCase "Validate /conformance path" {
+    // /conf/core/conformance-op
+    // /conf/core/conformance-success
+    id: coreConformanceTc1
+    description: "Validate that a Conformance Declaration can be retrieved from the expected location and that it complies with the required structure and contents."
+    references:
+        - "Conformance Path /conformance"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_path_conformance"
+            AbstractTestCase
+
+    ValidationStep "Request conformance document" {
+        id: coreConformanceTc1Step1
+        description: "Request an JSON document with an Accept application/json header"
+
+        given:
+
+        when: Request requestsConformanceJson executed
+
+        then:
+            - Assertion assertionConformanceLinkExists must pass
+            - AssertionGroup responseJsonReceived must pass
+    }
+
+}
+
+TestCase "Conformance link on landing page" {
+    // /conf/core/conformance-op
+    id: coreConformanceTc2
+    description: "Validate that a Conformance link exists on the landing page."
+    references:
+        - "Conformance Path /conformance"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
+            AbstractTestCase
+
+    ValidationStep "Check that conformance link exists" {
+        id: coreConformanceTc2Step2
+        description: "Check the landing page"
+
+        given:
+            
+        when: Request requestsLandingJson executed
+
+        then:
+            - Assertion assertionConformanceLinkExists must pass
+            - AssertionGroup responseJsonReceived must pass
+    }
+
+}
+
+TestCase "All conformance links can be retrieved" {
+    // /conf/core/conformance-op
+    id: coreConformanceTc3
+    description: "Validate that all Conformance link exist on the landing page."
+    references:
+        - "Conformance Path /conformance"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
+            AbstractTestCase
+
+    ValidationStep "Generate requests for each conformance link" {
+        id: coreConformanceTc3Step3
+        description: "Check the landing page"
+
+        given:
+            - Response from coreConformanceTc2Step2
+        when: Generator generatorsConformanceLinks executed
+        then:
+            - Assertion atLeastOneValueExists must pass
+    }
+
+    ValidationStep "Check that conformance link exists" {
+        // /conf/core/conformance-success
+        id: coreConformanceTc3Step4
+        description: "Check the landing page"
+
+        given:
+            - One ${conformanceLink} of ${conformanceLinks} from coreConformanceTc3Step3
+        when: Request requestsConformanceLink executed
+        then:
+            - AssertionGroup processesConformanceClassInJsonArray must pass
+    }
+
+
+}

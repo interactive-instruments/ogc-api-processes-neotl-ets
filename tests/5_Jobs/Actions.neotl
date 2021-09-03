@@ -1,0 +1,39 @@
+Extractor "Extract Echo Process ID" {
+    id: extractEchoProcessID
+
+    from RESPONSE 
+        as ${echoId} query $.*[?(@.id == 'echo' || @.id == 'EchoProcess')].id
+}
+
+
+GetRequest "Get Process Description" {
+    id: requestGetProcessDescription
+
+    parameters:
+        - ${echoId} is required
+
+    path: "processes/${echoId}"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+
+PostRequest "Execute Echo Process" {
+    id: executeEcho
+
+    parameters:
+        - ${echoId} is required
+        - ${preferHeader} is optional with default "respond-sync"
+
+    path: "processes/${echoId}/execution"
+
+    headers:
+        - "Accept" = "application/json"
+        - "Prefer" = ${preferHeader}
+
+    body from "./execute-echo.json" as application/json
+    // body { 
+        // "message" "hello ${x}"
+    // } as application/geo+json
+}
