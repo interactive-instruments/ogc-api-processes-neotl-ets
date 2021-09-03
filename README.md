@@ -22,3 +22,7 @@ Once the plugin is released, this step will no longer be necessary.
 ## Editing tests
 
 Start by opening the [Executable Test Suite](./ProcessesApi-testsuite.neotl). The tests will be executed on the (not yet public) [ETF instance](https://tb17.staging.etf-validator.com/etf-webapp/).
+
+## Open points
+
+- automated deployment to ETF instance and the description
