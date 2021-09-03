@@ -7,7 +7,7 @@ The repository contains the OGC API Processes Executable Test Suites written in 
 
 ## Run the Cloud Workbench
 
-Click **Open in Gitpod** below to open the repository in the online Gitpod development environment.
+Click **Open in Gitpod** below to open the repository in the online [Gitpod](https://www.gitpod.io/docs) development environment.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/jonherrmann/ogc-api-processes-neotl-ets)
 
