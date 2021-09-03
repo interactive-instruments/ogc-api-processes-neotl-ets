@@ -2,13 +2,19 @@
 
 ### Hover Help
 
+![Hover](img/hover.gif)
+
 Hover the mouse cursor over individual items to get additional help.
 
 ### Code Navigation
 
+![Goto Definition](img/goto_definition.gif)
+
 Navigate to defintion by pressing **Ctrl** (**Command** on MacOS) and click on the Defintion.
 
 ### Show Definition
+
+![Show Definition](img/show_definition.gif)
 
 Display a definition by holding **Ctrl** (**Command** on MacOS) while hovering the mouse pointer over the definition.
 
