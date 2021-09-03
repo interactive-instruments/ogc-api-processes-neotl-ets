@@ -12,7 +12,7 @@ The repository contains the OGC API Processes Executable Test Suites written in 
 As the plugin is not yet published, you need to install it in GitPod manually:
 - Open the **Extensions** view on the left side
 - Open the extensions menu (three dots) located above the extension search input field
-- Select **Install from VSIX...*
+- Select **Install from VSIX...**
 - Enter **/workspace/bin/neotl-vsx.vsix** and click on OK.
 
 Once the plugin is released, this step will no longer be necessary.
