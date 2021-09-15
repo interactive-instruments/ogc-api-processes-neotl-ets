@@ -1,0 +1,32 @@
+Extractor "Extract Echo Process ID" {
+    id: extractors.echo.ids
+
+    from RESPONSE 
+        as ${echoId} query $.*[?(@.id == 'echo' || @.id == 'EchoProcess')].id
+}
+
+
+GetRequest "Get Process Description" {
+    id: requestGetProcessDescription
+
+    path: "processes/${echoId}"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+
+PostRequest "Execute Echo Process" {
+    id: executeEcho
+
+    path: "processes/${echoId}/execution"
+
+    headers:
+        - "Accept" = "application/json"
+        - "Prefer" = ${preferHeader}
+
+    body from "./execute-echo.json" as application/json
+    // body { 
+        // "message" "hello ${x}"
+    // } as application/geo+json
+}

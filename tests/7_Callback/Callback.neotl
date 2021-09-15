@@ -1,0 +1,14 @@
+
+TestModule "Callback" {
+    id: oapi.processes.callback
+
+    description: "..."
+
+    references:
+    - "Conformance Class Callback"
+        "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_callback"
+        ConformanceClass
+
+    executes:
+        // - 
+}

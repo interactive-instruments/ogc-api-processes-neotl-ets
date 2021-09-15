@@ -1,0 +1,162 @@
+import "../../../shared/Assertions.neotl"
+import "Actions.neotl"
+
+TestCase "Validate /processes path" {
+    // /conf/core/process-list
+    // /conf/core/process-list-success
+    id: process.list
+    description: "Validate that information about the processes can be retrieved from the 
+        expected location and that it complies with the required structure and contents."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_process_list_2"
+            AbstractTestCase
+
+    ValidationStep "Request /processes" {
+        id: encoding.any
+        description: "Validate /processes path"
+
+        given:
+        when: Request requests.processes.noheader executed
+        then:
+            - Assert HTTP { statusCode "200" }
+    }
+
+    ValidationStep "Request /processes JSON" {
+        id: encoding.json
+        description: "Validate /processes path"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
+        when: Request requests.processes.json executed
+        then:
+            - AssertionGroup assertions.json.success must pass
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/processList.yaml"
+                validates
+            }
+    }
+
+    ValidationStep "Request /processes HTML" {
+        id: encoding.html
+        description: "Validate /processes path"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+        when: Request requests.processes.html executed
+        then:
+            - AssertionGroup assertions.html.success must pass
+    }
+}
+
+TestCase "Validate limit query parameter" {
+    // /conf/core/pl-limit-definition
+    id: process.list.limit
+    description: "Validate that the limit query parameter is constructed correctly."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_process_list_2"
+            AbstractTestCase
+
+}
+
+TestCase "Validate no-such-process exception" {
+    // /conf/core/process-exception-no-such-process
+    id: process.exception.no.such.process
+    description: "Validate that an invalid process identifier is handled correctly."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_process_exception"
+            AbstractTestCase
+
+    ValidationStep "Request unknown Process ID JSON" {
+        id: json
+        description: "Request Process with unknown ID"
+
+        given:
+        when: 
+            Request requestsProcesses2Unknown executed with:
+                - ${acceptHeader} = "application/json"
+        then:
+            - Assert HTTP { statusCode "404" }
+            - Assert HTTP { contentType "application/json" }
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/exception.yaml"
+                validates
+            }
+            - Assertion assertions.processes.no.such.process.exception must pass
+    }
+
+    ValidationStep "Request unknown Process ID HTML" {
+        id: html
+        description: "Request Process with unknown ID"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+        when: 
+            Request requestsProcesses2Unknown executed with:
+                - ${acceptHeader} = "text/html"
+        then:
+            - Assert HTTP { statusCode "404" }
+            - Assert HTTP { contentType "text/html" }
+    }
+}
+
+TestCase "Validate links" {
+    // /conf/core/pl-links
+    id: process.list.links
+    description: "Validate that the self link and the alternative link is included in the process description response."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Validate self link" {
+        id: json
+        description: "Validate self link"
+
+        given:
+            - Response from process.list.encoding.json
+        when: 
+        then:
+            - Assertion assertions.links.exist must pass
+            - Assert JSON { 
+                $.links[?(@.rel == 'self')] exists
+                otherwise FAIL with "The response does not contain a links section with a 
+                    link to this response document (relation: self)"
+            }
+    }
+
+    ValidationStep "Validate HTML link" {
+        id: core1ProcessesTc7Step2
+        description: "Validate HTML link"
+
+        given:
+            - Response from process.list.encoding.json
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+        when: 
+        then:
+            - Assertion assertions.links.exist must pass
+            - Assert JSON { 
+                $.links[?(@.rel == 'alternate' && @.type == 'text/html')] exists
+                otherwise FAIL with "The response does not contain a links section 
+                    with a link to the alternate HTML document (relation: alternate)"
+            }
+    }
+
+}
+
+Assertion "Link section exists" {
+    id: assertions.links.exist
+
+    JSON {
+        $.links exists
+        otherwise FAIL with "The links section is missing"
+    }
+}

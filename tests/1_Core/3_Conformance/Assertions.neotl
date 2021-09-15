@@ -1,0 +1,48 @@
+import '../../../shared/Assertions.neotl'
+import "Actions.neotl"
+
+Assertion "Conformance link exists" {
+    id: assertions.conformance.link
+    description: "Check that a conformance link exists"
+
+    JSON {
+        $.links[?(@.rel=='conformance')].href exists
+        otherwise FAIL with "A conformance link was not found on the landing 
+            page. Expected an 'links' array containing an JSON Hypermedia Link with the 
+            relation 'conformance'."
+    } 
+}
+
+Assertion "At least one value exists" {
+    id: atLeastOneValueExists
+    description: "Check that a conformance link exists"
+
+    JSON {
+        ${conformanceLinks} exists
+        otherwise FAIL with "No conformance links could be found"
+    } 
+}
+
+Assertion "Core conformance class in array exists" {
+    id: assertionConformsToCore
+    description: "Validate that the document includes the 'core' conformance class"
+
+    JSON {
+        $.conformsTo contains some "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core"
+        otherwise FAIL with "Expected an 'conformsTo' array containing the value 
+            'http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core'."
+    } 
+}
+
+AssertionGroup "Processes Conformance Class in Json Array" {
+    id: assertions.processes.cc.json.array
+
+    assertions:
+        - AssertionGroup assertions.json.success must pass
+        - Assertion assertionConformsToCore must pass
+        - Assert OpenAPI3 {
+            schema
+            "${schemaUrl}/confClasses.yaml"
+            validates
+        }
+}

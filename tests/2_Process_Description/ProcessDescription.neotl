@@ -1,0 +1,16 @@
+import "./ProcessDescription-tcs.neotl"
+
+TestModule "Process Description" {
+    id: oapi.processes.description
+
+    description: "The OGC process description conformance class describes an 
+        information model that may be used to specify the interface of a process"
+
+    references:
+    - "Conformance Class OGC Process Description"
+        "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_ogc_process_description"
+        ConformanceClass
+
+    executes:
+        - encoding.json
+}

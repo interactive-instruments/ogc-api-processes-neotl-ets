@@ -1,0 +1,34 @@
+GetRequest "Request /api openapi+json" {
+    id: requests.openapi3.openapi
+    description: "Issue a HTTP GET request on the path /api"
+    
+    path: "${openapiPath}" includes queries
+    
+    headers:
+        - "Accept" = "application/vnd.oai.openapi+json;version=3.0"
+}
+
+GetRequest "Request /api as HTML page" {
+    id: requests.openapi3.html
+    description: "Issue a HTTP GET request on the path /api"
+    
+    path: "${htmlPath}" includes queries
+    
+    headers:
+        - "Accept" = "text/hml"
+}
+
+Extractor "Extract service-desc link" {
+    id: extractors.openapi3.desc
+    
+    from RESPONSE
+        as ${descLink} query $.links[?(@.rel=='service-desc' && @.type =="application/openapi+json;version=3.0" )]
+}
+
+Extractor "Extract service-doc link" {
+    id: extractors.openapi3.doc
+    
+    from RESPONSE
+        as ${docLink} query $.links[?(@.rel=='service-doc' && @.type =="text/html" )]
+}
+        

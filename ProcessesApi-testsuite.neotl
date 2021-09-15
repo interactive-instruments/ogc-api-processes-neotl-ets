@@ -1,44 +1,51 @@
-import "tests/1_Landing/Landing-tcs.neotl"
-import "tests/2_API/Api-tcs.neotl"
-import "tests/3_Conformance/Conformance-tcs.neotl"
-import "tests/4_Processes/Processes-tcs.neotl"
-import "tests/5_Jobs/Jobs-tcs.neotl"
+import "tests/1_Core/Core.neotl"
+import "tests/2_Process_Description/ProcessDescription.neotl"
+import "tests/3_JSON/JSON.neotl"
+import "tests/4_HTML/HTML.neotl"
+import "tests/5_OpenAPI3/OpenAPI3.neotl"
+import "tests/6_Job_List/JobList.neotl"
+import "tests/7_Callback/Callback.neotl"
+import "tests/8_Dismiss/Dismiss.neotl"
+
 
 TestSuite "OGC API - Processes" {
     id: org.opengis.ets.ogcapi.processes
-    version: 0.8.0-snapshot
-
+    version: 0.9.0-snapshot
+    
     description: "Executable Test Suite 
             for validating Web APIs that implement the 
             'OGC API - Processes - Part 1: Core' standard. The Test Suites are 
             based on the normative Abstract Test Suites from Annex A of the
-            OGC Implementation Specification draft 1.0-draft.7-SNAPSHOT"
+            OGC Implementation Specification draft 1.0-draft.7-SNAPSHOT."
 
    references:
         - "OGC Implementation Specification"
             "https://docs.ogc.org/DRAFTS/18-062.html"
             ImplementationSpecification
-        - "Repository"
-            "https://etf.interactive-instruments.de/ogc/ogcapi-processes"
+        - "Repository of this Test Suite"
+            "https://github.com/interactive-instruments/ogc-api-processes-neotl-ets"
             TestCodeRepository
+        - "Repository of the OGC API - Processes Standards Working Group"
+            "https://github.com/opengeospatial/ogcapi-processes/issues"
+            ImplementationSpecificationIssueManagement
+        - "ZOO-Project OGC API - Processes server example implementation"
+            "http://tb17.geolabs.fr:8101"
+            ExampleImplementation
+        - "OpenAPI Schema definitions"
+            "https://github.com/opengeospatial/ogcapi-processes/tree/master/core/openapi/schemas"
+            Other
 
     executes:
-        // core1.landing.tc1
-        - core1LandingTc1
-        - core1LandingTc2
-        - coreApiTc1
-        - coreConformanceTc1
-        - coreConformanceTc2
-        - coreConformanceTc3
-        - core1ProcessesTc1
-        - core1ProcessesTc2
-        - core1ProcessesTc3
-        - core1ProcessesTc4
-        - core1JobsTc1
-        - core1JobsTc2
-        - core1JobsTc3
-        
+        - oapi.processes.core
+        - oapi.processes.description
+        - oapi.processes.json
+        - oapi.processes.html
+        - oapi.processes.openapi3
+        - oapi.processes.joblist
+        - oapi.processes.callback
+        - oapi.processes.dismiss
+
     defines:
-        // See https://github.com/opengeospatial/ogcapi-processes/tree/master/core/openapi/schemas
-        - URL ${schemaUrl} = "https://raw.githubusercontent.com/opengeospatial/ogcapi-processes/master/core/openapi/schemas"
+        - URL $schemaUrl = "https://raw.githubusercontent.com/opengeospatial/ogcapi-processes/master/core/openapi/schemas"
+
 }

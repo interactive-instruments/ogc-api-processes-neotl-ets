@@ -1,0 +1,24 @@
+GetRequest "Request /conformance" {
+    id: requestsConformanceJson
+
+    path: "conformance"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+GetRequest "Request conformance document" {
+    id: requestsConformanceLink
+
+    path: "${conformanceLink}" includes queries
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+Generator "Generate link requests" {
+    id: generators.conformance.links
+
+    from RESPONSE 
+        as ${conformanceLinks} query $.links[?(@.rel=='conformance')].href
+}

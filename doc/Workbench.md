@@ -20,31 +20,41 @@ Display a definition by holding **Ctrl** (**Command** on MacOS) while hovering t
 
 ### Suggestions
 
-Get context-dependent suggestions in the DSL by pressing **Ctrl** (**Command** on MacOS) Space.
+Get context-dependent suggestions in the DSL by pressing **Ctrl** (**Command** on MacOS) + **Space**.
 
 In some cases, this can take quite a long time. Will be optimized in future versions.
 
 ### Validations
 
-At the moment the following things are validated:
+At the moment the following concepts are validated:
 
 - Variables
 - Links in resources
 - URLs in schema validation definitions
 - Stubs
 
-Will be described in more detail.
+Will be described in more detail soon.
 
 ### Coloring
 
-There are some issues with the coloring due to technical restrictions.
+Will be described in more detail soon.
 
-**Not yet completely implemented.**
+### Outline
+
+The Outline view is shown on the right side and gives an overview of the concepts in the current file. Depending on the concept, additional information is added.
+
+Will be described in more detail soon.
+
+### Snippets
+
+Press **Ctrl** (**Command** on MacOS) + **Space** and select "New ..." from the context menu.
+
+Will be described in more detail soon.
 
 ### Quick Actions
 
-**Not yet completely implemented.**
+**Not yet implemented.**
 
 ### Formatting
 
-**Not yet completely implemented.**
+**Not yet implemented.**

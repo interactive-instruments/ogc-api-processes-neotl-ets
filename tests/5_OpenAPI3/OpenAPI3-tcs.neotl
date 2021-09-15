@@ -1,0 +1,97 @@
+import "./Actions.neotl"
+import "../1_Core/1_Landing/Landing-tcs.neotl"
+import "../../shared/Assertions.neotl"
+
+TestCase "Validate OpenAPI document at /api path" {
+    // /conf/core/api-definition-op
+    // /conf/core/api-definition-success
+    id: definitions.openapi
+    description: "Validate that the API Definition document can be retrieved from the expected 
+        location and that it complies with the required structure and contents."
+    references:
+        - "API Definition /api"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
+            AbstractTestCase
+
+    ValidationStep "Extract service-desc link" {
+        id: extract.openapi
+        description: "Extract the service-desc link from the landing page"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/oas30
+            - Response from landing.json.step
+
+        when: Extractor extractors.openapi3.desc executed
+
+        then:
+            - Assert JSON {
+                ${descLink} exists
+                otherwise FAIL with "An OpenAPI definition link in JSON is not 
+                    available on the landing page ('service-desc' relation 
+                    and 'application/vnd.oai.openapi+json;version=3.0' media type)."
+            }
+            - AssertionGroup assertions.json.success must pass
+    }
+
+    ValidationStep "Request service-desc" {
+        id: request.openapi
+        description: "Request the extracted service-desc path"
+
+        given:
+            - Value ${descLink} from extract.openapi
+
+        when: Request requests.openapi3.openapi executed
+
+        then:
+            - AssertionGroup assertions.json.success must pass
+            
+    }
+}
+
+TestCase "Validate HTML document at /api path" {
+    // /conf/core/api-definition-op
+    // /conf/core/api-definition-success
+    id: definitions.html
+    description: "Validate that the HTML version of the API Definition can be retrieved 
+        from the expected location."
+
+    references:
+        - "API Definition /api"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
+            AbstractTestCase
+
+    ValidationStep "Extract service-doc link" {
+        id: extract.html
+        description: "Extract the service-doc link from the landing page"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/oas30
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+            - Response from landing.json.step
+
+        when: Extractor extractors.openapi3.doc executed
+
+        then:
+            - Assert JSON {
+                ${docLink} exists
+                otherwise FAIL with "An HTML version of the API definition link is not 
+                    available on the landing page ('service-doc' relation 
+                    and 'text/html' media type)."
+            }
+            - AssertionGroup assertions.json.success must pass
+    }
+
+    ValidationStep "Request service-doc" {
+        id: request.html
+        description: "Request the extracted service-doc path"
+
+        given:
+            - Value ${docLink} from extract.html
+
+        when: Request requests.openapi3.html executed
+
+        then:
+            - AssertionGroup assertions.html.success must pass
+            
+    }
+}

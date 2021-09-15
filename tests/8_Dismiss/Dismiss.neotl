@@ -1,0 +1,14 @@
+
+TestModule "Dismiss" {
+    id: oapi.processes.dismiss
+
+    description: "..."
+
+    references:
+    - "Conformance Class Dismiss"
+        "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_dismiss"
+        ConformanceClass
+
+    executes:
+        
+}

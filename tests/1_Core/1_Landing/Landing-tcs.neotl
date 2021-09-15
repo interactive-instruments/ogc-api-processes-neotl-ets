@@ -1,0 +1,57 @@
+import "Actions.neotl"
+import "../../../shared/Assertions.neotl"
+
+TestCase "Validate OpenAPI Landing Page" {
+    // conf/core/landingpage-op
+    id: landing.json
+    description: "Check if the returned document meets the requirements for JSON."
+    references:
+        - "Landing page /"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_landing_page"
+            AbstractTestCase
+
+    ValidationStep "Request the Landing Page as JSON document" {
+        id: step
+        description: "Request an JSON document with an Accept application/json header"
+
+        given:
+
+        when: Request req.landing.json executed
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/landingPage.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass 
+    }
+}
+
+TestCase "Validate OpenAPI HTML Landing Page" {
+    // /conf/core/landingpage-success
+    id: landing.html
+    description: "Check if the returned document meets the requirements for HTML."
+    references:
+        - "Landing page /"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_landing_page"
+            AbstractTestCase
+
+    ValidationStep "Request the Landing Page as HTML document" {
+        id: step
+        description: "Request an HTML document with an Accept text/html header"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+
+        when: Request req.landing.html executed
+
+        then:
+            - AssertionGroup assertions.html.success must pass
+            - Assert HTML is valid
+            - Assert Manual {
+                "Validate that the landing page includes a link to an API Definition."
+                "Validate that the landing page includes a 'http://www.opengis.net/def/rel/ogc/1.0/conformance' link to the conformance class declaration."
+                "Validate that the landing page includes a 'processes' link to the list of processes."
+            }
+    }
+}

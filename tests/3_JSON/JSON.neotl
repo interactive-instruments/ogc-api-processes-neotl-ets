@@ -1,0 +1,15 @@
+
+TestModule "JSON" {
+    id: oapi.processes.json
+
+    // All tests for the conformance class are performed within other test modules.
+
+    description: "The JSON conformance class is the mandatory encoding for OGC API Processes"
+
+    references:
+    - "Conformance Class JSON"
+        "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_json"
+        ConformanceClass
+
+    executes:
+}

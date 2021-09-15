@@ -1,0 +1,36 @@
+import "1_Landing/Landing-tcs.neotl"
+import "2_API/Api-tcs.neotl"
+import "3_Conformance/Conformance-tcs.neotl"
+import "4_Processes/Processes-tcs.neotl"
+import "5_Jobs/Jobs-tcs.neotl"
+
+TestModule "Core" {
+    id: oapi.processes.core
+
+    description: "The Core Conformance Class specifies requirements that all Web APIs have to implement."
+
+    references:
+    - "Conformance Class Core"
+        "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_core"
+        ConformanceClass
+
+    executes:
+        - landing.json
+        - landing.html
+        
+        - api.json
+
+        - conformance
+        - conformance.landing.link
+        - conformance.landing.links
+
+        - process.list
+        - process.list.limit
+        - process.exception.no.such.process
+        - process.list.links
+
+        - jobs.echo
+        - jobs.echo.description
+        - jobs.echo.execute
+
+}

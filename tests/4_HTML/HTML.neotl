@@ -1,0 +1,16 @@
+
+TestModule "HTML" {
+    id: oapi.processes.html
+
+    // All tests for the conformance class are performed within other test modules.
+
+    description: "The HTML conformance class is an optional encoding for OGC API Processes"
+
+    references:
+    - "Conformance Class HTML"
+        "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_html"
+        ConformanceClass
+
+    executes:
+        
+}

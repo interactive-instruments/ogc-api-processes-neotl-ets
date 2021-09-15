@@ -1,0 +1,14 @@
+
+TestModule "Job List" {
+    id: oapi.processes.joblist
+
+    description: "..."
+
+    references:
+    - "Conformance Class Job list"
+        "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+        ConformanceClass
+
+    executes:
+        // - 
+}

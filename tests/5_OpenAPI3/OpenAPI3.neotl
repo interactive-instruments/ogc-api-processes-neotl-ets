@@ -1,0 +1,17 @@
+
+import "OpenAPI3-tcs.neotl"
+
+TestModule "OpenAPI 3.0" {
+    id: oapi.processes.openapi3
+
+    description: "..."
+
+    references:
+    - "Conformance Class OpenAPI 3.0"
+        "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_openapi_3_0"
+        ConformanceClass
+
+    executes:
+        - definitions.openapi
+        - definitions.html
+}

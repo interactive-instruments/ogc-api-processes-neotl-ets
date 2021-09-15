@@ -1,0 +1,17 @@
+GetRequest "Request JSON Landing Page" {
+    id: req.landing.json
+
+    path: ""
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+GetRequest "Request HTML Landing Page" {
+    id: req.landing.html
+
+    path: ""
+
+    headers:
+        - "Accept" = "text/html"
+}
