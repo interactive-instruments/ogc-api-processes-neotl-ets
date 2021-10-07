@@ -35,3 +35,19 @@ GetRequest "Request unknown Process ID" {
     headers:
         - "Accept" = ${acceptHeader}
 }
+
+Generator "Generate Process IDs" {
+    id: generators.process.ids
+
+    from RESPONSE
+        as ${processIds} query $..id
+}
+
+GetRequest "Get Process Description" {
+    id: requests.processes.description
+
+    path: "processes/${processId}"
+
+    headers:
+        - "Accept" = "application/json"
+}

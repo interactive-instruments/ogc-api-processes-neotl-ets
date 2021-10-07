@@ -1,8 +1,28 @@
 Extractor "Extract Echo Process ID" {
-    id: extractors.echo.ids
+    id: extractors.echo.id
 
     from RESPONSE 
         as ${echoId} query $.*[?(@.id == 'echo' || @.id == 'EchoProcess')].id
+}
+
+Extractor "Extract the input and output values from the schema object" {
+    id: extractors.inputoutputs
+
+    from RESPONSE 
+        as ${inputs} query {
+            "reproducibleSamplesFromSchema( $.inputs )"
+        }
+
+        as ${outputs} query {
+            "'outputs': {
+                for $output in $.outputs
+                    return {
+                        $output : {
+                            'transmissionMode': 'value'
+                        }
+                    }
+            }"
+        }
 }
 
 
@@ -15,9 +35,8 @@ GetRequest "Get Process Description" {
         - "Accept" = "application/json"
 }
 
-
 PostRequest "Execute Echo Process" {
-    id: executeEcho
+    id: requests.echo
 
     path: "processes/${echoId}/execution"
 
@@ -25,8 +44,29 @@ PostRequest "Execute Echo Process" {
         - "Accept" = "application/json"
         - "Prefer" = ${preferHeader}
 
-    body from "./execute-echo.json" as application/json
-    // body { 
-        // "message" "hello ${x}"
-    // } as application/geo+json
+    // body from "./execute-echo.json" as application/json
+    body {
+        "id": ${echoId},
+         "inputs": ${inputs},
+         "outputs": ${outputs},
+         "response": "document"
+    } as application/json
+}
+
+GetRequest "Get Job Results" {
+    id: requests.job.results.json
+
+    path: "jobs/JOB_ID_MUST_NOT_EXIST/results"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+GetRequest "Get Job Results" {
+    id: requests.job.results.html
+
+    path: "jobs/JOB_ID_MUST_NOT_EXIST/results"
+
+    headers:
+        - "Accept" = "text/html"
 }

@@ -17,6 +17,7 @@ TestCase "Validate /api path" {
         description: "Request an JSON document with an Accept application/json header"
 
         given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
 
         when: Request requests.api.json executed
 

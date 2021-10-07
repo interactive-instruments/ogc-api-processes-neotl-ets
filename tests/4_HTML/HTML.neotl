@@ -1,3 +1,4 @@
+import "../1_Core/Core.neotl"
 
 TestModule "HTML" {
     id: oapi.processes.html
@@ -11,6 +12,7 @@ TestModule "HTML" {
         "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_html"
         ConformanceClass
 
-    executes:
-        
+    dependencies:
+        - oapi.processes.core
+
 }

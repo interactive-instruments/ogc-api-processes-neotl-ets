@@ -4,6 +4,7 @@ import "Actions.neotl"
 
 
 TestCase "Check for an echo process" {
+    // /conf/core/job-creation-op
     id: jobs.echo
     description: "Check that an echo process with the id 'echo' or 'EchoProcess' exists"
     references:
@@ -18,10 +19,10 @@ TestCase "Check for an echo process" {
         given:
             - Response from process.list.encoding.json
 
-        when: Extractor extractors.echo.ids executed
+        when: Extractor extractors.echo.id executed
 
         then:
-            - Assertion atLeastOneValueExtracted must pass
+            - Assertion echoId.extracted must pass
     }
 }
 
@@ -61,15 +62,32 @@ TestCase "Execute the echo process" {
         "https://docs.ogc.org/DRAFTS/18-062.html#_jobs"
         AbstractTestCase
 
+    ValidationStep "Extract Inputs and Outputs" {
+        id: inout.extract
+        description: "Extract the input and output values from the Schema. 
+            If available, default values are used otherwise simple values are generated for the data type."
+
+        given:
+            - Response from process.list.encoding.json
+        
+        when: Extractor extractors.inputoutputs executed
+
+        then:
+            - Assertion inputs.extracted must pass
+            - Assertion outputs.extracted must pass
+    }
+
+
     ValidationStep "Execute echo process respond-sync" {
-        id: coreJobs3step1
+        id: jobs.echo.execute.sync
         description: "Execute the echo process with the extracted echoId"
 
         given:
-            - Value ${echoId} from jobs.echo.extract
+            - Value $echoId from jobs.echo.extract
+            - Values $inputs, $outputs from jobs.echo.execute.inout.extract
 
-        when: 
-            Request executeEcho executed with:
+        when:
+            Request requests.echo executed with:
                 - ${preferHeader} = "respond-sync"
 
         then:
@@ -83,11 +101,74 @@ TestCase "Execute the echo process" {
 }
 
 
-Assertion "At least one value exists" {
-    id: atLeastOneValueExtracted
+TestCase "Invalid job identifier" {
+    // /conf/core/job-results-failed
+    id: jobs.results.failed
+    description: "Validate that the job results for a failed job complies with the require structure and contents."
+    references:
+    - "Processes /processes"
+        "https://docs.ogc.org/DRAFTS/18-062.html#_jobs"
+        AbstractTestCase
+
+    ValidationStep "Request invalid job identifier as JSON" {
+        id: request
+        description: "Request an invalid job identifier (JOB_ID_MUST_NOT_EXIST) and validate that the incomplete job complies with the require structure and contents."
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
+        when:
+            Request requests.job.results.json executed
+
+        then:
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/exceptions.yaml"
+                validates
+            }
+            - Assertion assertions.processes.no.such.job.exception must pass
+            - Assert HTTP { statusCode "404" }
+            - Assert HTTP { contentType "application/json" }
+    }
+
+    ValidationStep "Request invalid job identifier as HTML" {
+        id: request
+        description: "Request an invalid job identifier (JOB_ID_MUST_NOT_EXIST) and validate that the incomplete job complies with the require structure and contents."
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+        when:
+            Request requests.job.results.html executed
+
+        then:
+            - Assert HTTP { statusCode "404" }
+            - Assert HTTP { contentType "text/html" }
+    }
+}
+
+
+Assertion "Echo ID extracted" {
+    id: echoId.extracted
 
     JSON {
         ${echoId} exists
         otherwise FAIL with "No echo ID could be extracted"
+    }
+}
+
+Assertion "inputs extracted" {
+    id: inputs.extracted
+
+    JSON {
+        ${inputs} exists
+        otherwise FAIL with "No inputs defined in process definition"
+    }
+}
+
+Assertion "Outputs extracted" {
+    id: outputs.extracted
+
+    JSON {
+        ${outputs} exists
+        otherwise FAIL with "No outputs defined in process definition"
     }
 }

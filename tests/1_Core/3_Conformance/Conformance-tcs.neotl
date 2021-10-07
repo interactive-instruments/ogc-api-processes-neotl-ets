@@ -5,7 +5,6 @@ import "../../../shared/Assertions.neotl"
 
 TestCase "Validate /conformance path" {
     // /conf/core/conformance-op
-    // /conf/core/conformance-success
     id: conformance
     description: "Validate that a Conformance Declaration can be retrieved from the expected location and that it complies with the required structure and contents."
     references:

@@ -1,3 +1,9 @@
+GetRequest "Request Landing Page" {
+    id: req.landing.noheader
+
+    path: ""
+}
+
 GetRequest "Request JSON Landing Page" {
     id: req.landing.json
 

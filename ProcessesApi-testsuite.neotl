@@ -29,11 +29,14 @@ TestSuite "OGC API - Processes" {
             "https://github.com/opengeospatial/ogcapi-processes/issues"
             ImplementationSpecificationIssueManagement
         - "ZOO-Project OGC API - Processes server example implementation"
-            "http://tb17.geolabs.fr:8101"
+            "http://tb17.geolabs.fr:8102"
             ExampleImplementation
         - "OpenAPI Schema definitions"
             "https://github.com/opengeospatial/ogcapi-processes/tree/master/core/openapi/schemas"
             Other
+        - "Core Conformance Class"
+            http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core
+            ConformanceClass
 
     executes:
         - oapi.processes.core

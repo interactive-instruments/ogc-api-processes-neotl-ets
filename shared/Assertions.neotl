@@ -14,12 +14,33 @@ AssertionGroup "HTML response received" {
         - Assert HTTP { contentType "text/html" }
 }
 
+
 Assertion "no-such-process Exception Type returned" {
     id: assertions.processes.no.such.process.exception
 
     JSON {
         $.type equals "http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-process"
         otherwise FAIL with 
-            "The id in the returned response does not match the requested id"
+            "The exception type does not match 'http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-process'"
+    }
+}
+
+Assertion "no-such-job Exception Type returned" {
+    id: assertions.processes.no.such.job.exception
+
+    JSON {
+        $.type equals "http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-job"
+        otherwise FAIL with 
+            "The exception type does not match 'http://www.opengis.net/def/exceptions/ogcapi-processes-1/1.0/no-such-job'"
+    }
+}
+
+Assertion "No exception type returned" {
+    id: assertions.no.exception.type
+
+    JSON {
+        $.type exists
+        otherwise FAIL with
+            "No exception type returned"
     }
 }

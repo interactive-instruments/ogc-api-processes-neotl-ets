@@ -107,6 +107,65 @@ TestCase "Validate no-such-process exception" {
     }
 }
 
+
+TestCase "Process descriptions" {
+    
+    // /conf/core/process
+    // /conf/core/process-success
+    // /conf/ogc-process-description/json-encoding
+    // /conf/ogc-process-description/inputs-def
+    // /conf/ogc-process-description/input-mixed-type
+    // /conf/ogc-process-description/outputs-def
+    // /conf/ogc-process-description/output-def
+    // /conf/ogc-process-description/output-mixed-type
+
+    id: process.description
+    description: "Validate that a process description can be retrieved from the expected location."
+
+    references:
+        - "Processes /processes"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_processes_processes"
+            AbstractTestCase
+
+    ValidationStep "Generate Requests" {
+        id: generate
+        description: "Generate Process Description Requests"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/ogc-process-description
+            - Response from process.list.encoding.json
+        when: Generator generators.process.ids executed
+        then:
+            - Assert JSON { 
+                ${processIds} not empty
+                otherwise FAIL with "No IDs in process list found"
+             }
+    }
+
+
+    ValidationStep "Validate Process Description" {
+        id: core1ProcessesTc3Step2
+        description: "Validated responses of the generated process descriptions requests"
+
+        given:
+            - One ${processId} of ${processIds} from generate
+        when: Request requests.processes.description executed
+        then:
+            - AssertionGroup assertions.json.success must pass
+            - Assert OpenAPI3 {
+                schema
+                "${schemaUrl}/process.yaml"
+                validates
+            }
+            - Assert JSON {
+                $.id equals ${processId}
+                otherwise FAIL with 
+                "The id in the returned response does not match the requested id"
+            }
+    }
+}
+
+
 TestCase "Validate links" {
     // /conf/core/pl-links
     id: process.list.links

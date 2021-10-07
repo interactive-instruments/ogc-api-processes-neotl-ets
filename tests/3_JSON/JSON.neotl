@@ -1,3 +1,4 @@
+import "../1_Core/Core.neotl"
 
 TestModule "JSON" {
     id: oapi.processes.json
@@ -9,7 +10,9 @@ TestModule "JSON" {
     references:
     - "Conformance Class JSON"
         "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_json"
-        ConformanceClass
+        ConformanceClass 
 
-    executes:
+    dependencies:
+        - oapi.processes.core
+
 }

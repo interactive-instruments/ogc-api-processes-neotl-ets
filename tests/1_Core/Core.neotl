@@ -10,11 +10,15 @@ TestModule "Core" {
     description: "The Core Conformance Class specifies requirements that all Web APIs have to implement."
 
     references:
-    - "Conformance Class Core"
-        "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_core"
-        ConformanceClass
+        - "Core ATS"
+            "http://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_core"
+            AbstractTestSuite
+        - "Conformance Class Core"
+            http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core
+            ConformanceClass
 
     executes:
+        - landing.any
         - landing.json
         - landing.html
         
@@ -27,10 +31,12 @@ TestModule "Core" {
         - process.list
         - process.list.limit
         - process.exception.no.such.process
+        - process.description
         - process.list.links
 
         - jobs.echo
         - jobs.echo.description
         - jobs.echo.execute
+        - jobs.results.failed
 
 }

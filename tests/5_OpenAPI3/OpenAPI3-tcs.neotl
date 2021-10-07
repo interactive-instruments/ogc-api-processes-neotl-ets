@@ -3,8 +3,8 @@ import "../1_Core/1_Landing/Landing-tcs.neotl"
 import "../../shared/Assertions.neotl"
 
 TestCase "Validate OpenAPI document at /api path" {
-    // /conf/core/api-definition-op
-    // /conf/core/api-definition-success
+    // /conf/oas30/oas-definition-1
+    // /conf/oas30/oas-definition-2
     id: definitions.openapi
     description: "Validate that the API Definition document can be retrieved from the expected 
         location and that it complies with the required structure and contents."
@@ -38,7 +38,7 @@ TestCase "Validate OpenAPI document at /api path" {
         description: "Request the extracted service-desc path"
 
         given:
-            - Value ${descLink} from extract.openapi
+            - Value ${descLink} from extract.openapi 
 
         when: Request requests.openapi3.openapi executed
 
@@ -65,7 +65,6 @@ TestCase "Validate HTML document at /api path" {
         description: "Extract the service-doc link from the landing page"
 
         given:
-            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/oas30
             - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
             - Response from landing.json.step
 

@@ -1,6 +1,29 @@
 import "Actions.neotl"
 import "../../../shared/Assertions.neotl"
 
+
+TestCase "Validate Landing Page" {
+    // conf/core/landingpage-op
+    id: landing.any
+    description: "Check if the service returns a document."
+    references:
+        - "Landing page /"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_landing_page"
+            AbstractTestCase
+
+    ValidationStep "Request the Landing Page" {
+        id: step
+        description: "Request a document from the root URL"
+
+        given:
+
+        when: Request req.landing.noheader executed
+
+        then:
+            - Assert HTTP { statusCode "200" }
+    }
+}
+
 TestCase "Validate OpenAPI Landing Page" {
     // conf/core/landingpage-op
     id: landing.json
@@ -15,6 +38,7 @@ TestCase "Validate OpenAPI Landing Page" {
         description: "Request an JSON document with an Accept application/json header"
 
         given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
 
         when: Request req.landing.json executed
 
