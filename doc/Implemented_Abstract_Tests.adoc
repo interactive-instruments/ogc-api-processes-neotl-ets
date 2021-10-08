@@ -79,10 +79,10 @@ Abstract Test Case No.;Abstract Test Case identifier ;NeoTL Executable Test Case
 74;/conf/job-list/processID-mandatory;oapi.processes.joblist.list;implemented;;Validate that the processID property is present in every job.
 75;/conf/job-list/processID-response;oapi.processes.joblist.parameter.processid;implemented;;Validate that the processID query parameter is processed correctly.
 76;/conf/job-list/status-response;oapi.processes.joblist.parameter.status;implemented;;Validate that the status query parameter is processed correctly.
-77;/conf/job-list/datetime-response;;maybe;;Validate that the datetime query parameter is processed correctly.
-78;/conf/job-list/duration-response;;maybe;;Validate that the minDuration and maxDuration query parameter are processed correctly.
+77;/conf/job-list/datetime-response;;will be implemented later;;Validate that the datetime query parameter is processed correctly.
+78;/conf/job-list/duration-response;;will be implemented later;;Validate that the minDuration and maxDuration query parameter are processed correctly.
 79;/conf/job-list/limit-response;oapi.processes.joblist.parameter.limit;implemented;;Validate that the limit query parameter is processed correctly.
-80;/conf/callback/job-callback;;maybe;Callback implemented Framework, Concept in DSL, but not yet in the Execution Engine;Validate the passing of a subscriber-URL in an execute request.
+80;/conf/callback/job-callback;;will be implemented later;Callback implemented in Framework, Concept in DSL, but not yet in the Execution Engine;Validate the passing of a subscriber-URL in an execute request.
 81;/conf/dismiss/job-dismiss-op;;will not be implemented;;Validate that a running job can be dismissed.
 82;/conf/dismiss/job-dismiss-success;;will not be implemented;;Validate that the content returned when dismissing a job complies with the required structure and contents.
 |===
