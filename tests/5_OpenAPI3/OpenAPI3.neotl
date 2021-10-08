@@ -4,7 +4,7 @@ import "OpenAPI3-tcs.neotl"
 TestModule "OpenAPI 3.0" {
     id: oapi.processes.openapi3
 
-    description: "..."
+    description: "OpenAPI 3.0 specification is one option for defining the Processing API."
 
     references:
     - "Conformance Class OpenAPI 3.0"

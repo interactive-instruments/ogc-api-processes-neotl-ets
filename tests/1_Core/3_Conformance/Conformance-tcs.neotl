@@ -69,7 +69,7 @@ TestCase "All conformance links can be retrieved" {
             - Response from conformance.landing.link.step
         when: Generator generators.conformance.links executed
         then:
-            - Assertion atLeastOneValueExists must pass
+            - Assertion assertions.conformance.atLeastOneValueExists must pass
     }
 
     ValidationStep "Check that conformance link exists" {

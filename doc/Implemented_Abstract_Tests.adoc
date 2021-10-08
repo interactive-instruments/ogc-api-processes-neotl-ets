@@ -1,0 +1,88 @@
+= Implemented Abstract Tests
+
+[format="csv", separator=";", options="header"]
+|===
+Abstract Test Case No.;Abstract Test Case identifier ;NeoTL Executable Test Case identifiers;Status;Comment;Abstract Test Purpose
+1;/conf/core/landingpage-op;core.landing.any, core.landing.json, core.landing.html;implemented;;Validate that a landing page can be retrieved from the expected location.
+2;/conf/core/landingpage-success;core.landing.any, core.landing.json, core.landing.html;implemented;;Validate that the landing page complies with the require structure and contents.
+3;/conf/core/api-definition-op;core.api.json;implemented;;Validate that the API Definition document can be retrieved from the expected location.
+4;/conf/core/api-definition-success;core.api.json;implemented;;Validate that the API Definition complies with the required structure and contents.
+5;/conf/core/conformance-op;core.conformance, core.conformance.link,core.conformance.links;implemented;;Validate that a Conformance Declaration can be retrieved from the expected location.
+6;/conf/core/conformance-success;core.conformance.links;implemented;;Validate that the Conformance Declaration response complies with the required structure and contents.
+7;/conf/core/http;-;will not be implemented;no test;Validate that the resource paths advertised through the API conform with HTTP 1.1 and, where appropriate, TLS.
+8;/conf/core/process-list;core.process.list;implemented;;Validate that information about the processes can be retrieved from the expected location.
+9;/conf/core/pl-limit-definition;core.process.list.limit;implemented;;Validate that the limit query parameter is constructed correctly.
+10;/conf/core/process-list-success;core.process.list;implemented;;Validate that the process list content complies with the required structure and contents.
+11;/conf/core/pl-links;core.process.list.links;implemented;;Validate that the proper links are included in a response.
+12;/conf/core/pl-limit-response;core.process.list.limit;implemented;todo: check status;Validate that the limit query parameter is processed correctly.
+13;/conf/core/process;core.process.description;implemented;;Validate that a process description can be retrieved from the expected location.
+14;/conf/core/process-success;core.process.description;implemented;;Validate that the content complies with the required structure and contents.
+15;/conf/core/process-exception-no-such-process;core.process.exception.no.such.process;implemented;;Validate that an invalid process identifier is handled correctly.
+16;/conf/core/job-creation-op;core.jobs.echo;implemented;abstract description;Validate the creation of a new job.
+17;/conf/core/job-creation-auto-execution-mode;core.jobs.echo;in progress;todo: issues with the input generator;Validate that the server correctly handles the execution mode for a process.
+18;/conf/core/job-creation-default-execution-mode;core.jobs.echo;in progress;issues with the input generator;Validate that the server correctly handles the default execution mode for a process.
+19;/conf/core/job-creation-request;core.jobs.echo;in progress;..;Validate that the body of a job creation operation complies with the required structure and contents.
+20;/conf/core/job-creation-inputs;core.jobs.echo;in progress;;Validate that servers can accept input values both inline and by reference.
+21;/conf/core/job-creation-input-inline;core.jobs.echo;in progress;;Validate in-line process input values are validated against the corresponding schema from the process description.
+22;/conf/core/job-creation-input-ref;core.jobs.echo;in progress;;Validate that input values specified by reference in an execute request are correctly processed.
+23;/conf/core/job-creation-input-array;core.jobs.echo;in progress;;Verify that the server correctly recognizes the encoding of parameter values for input parameters with a maximum cardinality greater than one.
+24;/conf/core/job-creation-input-inline-object;core.jobs.echo;in progress;;Validate that inputs with a complex object schema encoded in-line in an execute request are correctly processed.
+25;/conf/core/job-creation-input-inline-mixed;core.jobs.echo;in progress;;Validate that inputs of mixed content encoded in-line in an execute request are correctly processed.
+26;/conf/core/job-creation-input-inline-binary;core.jobs.echo;in progress;;Validate that binary input values encoded as base-64 string in-line in an execute request are correctly processes.
+27;/conf/core/job-creation-input-inline-bbox;core.jobs.echo;in progress;;Validate that inputs with a bounding box schema encoded in-line in an execute request are correctly processed.
+28;/conf/core/job-creation-input-validation;core.jobs.echo;in progress;;Verify that the server correctly validates process input values according to the definition obtained from the process description.
+29;/conf/core/job-creation-sync-raw-value-one;core.jobs.echo;in progress;;Validate that the server responds as expected when synchronous execution is negotiated, a single output value is requested, the response type is raw and the output transmission is value.
+30;/conf/core/job-creation-sync-raw-value-multi;core.jobs.echo;in progress;;Validate that the server responds as expected when synchronous execution is negotiated, the response type is raw and the output transmission is value.
+31;/conf/core/job-creation-sync-raw-ref;core.jobs.echo;in progress;;Validate that the server responds as expected when synchronous execution is negotiated, the response type is raw and the transmission mode is ref.
+32;/conf/core/job-creation-sync-raw-mixed-multi;core.jobs.echo;in progress;;Validate that the server responds as expected when synchronous execution is negotiated, the response type is raw and the output transmission is a mix of value and reference.
+33;/conf/core/job-creation-sync-document;core.jobs.echo;in progress;;Validate that the server responds as expected when synchronous execution is negotiated and the response type is document.
+34;/conf/core/job-creation-success-async;core.jobs.echo;in progress;;Validate the results of a job that has been created using the async execution mode.
+35;/conf/core/job-op;core.jobs.echo;in progress;;Validate that the status info of a job can be retrieved.
+36;/conf/core/job-success;core.jobs.echo;in progress;;Validate that the job status info complies with the require structure and contents.
+37;/conf/core/job-exception-no-such-job;core.jobs.echo;in progress;;Validate that an invalid job identifier is handled correctly.
+38;/conf/core/job-results;core.jobs.echo;in progress;;Validate that the results of a job can be retrieved.
+39;/conf/core/job-results-sync;core.jobs.echo;in progress;;Validate that the server responds as expected when getting results from a job for a process that has been executed synchronously.
+40;/conf/core/job-results-async-raw-value-one;core.jobs.echo;in progress;;Validate that the server responds as expected when asynchronous execution is negotiated, one output is requested, the response type is raw and the output transmission is value.
+41;/conf/core/job-results-async-raw-value-multi;core.jobs.echo;in progress;;Validate that the server responds as expected when asynchronous execution is <sc_execution_mode,negotiated>>, more than one output is requested, the response type is raw and the output transmission is value.
+42;/conf/core/job-results-async-raw-ref;core.jobs.echo;in progress;;Validate that the server responds as expected when asynchronous execution is <,sc_execution_mode,negotiated>>, the response type is raw and the output transmission is reference.
+43;/conf/core/job-results-async-raw-mixed-multi;core.jobs.echo;in progress;;Validate that the server responds as expected when asynchronous execution is negotiated, more than one output is requested, the response type is raw and the output transmission is a mix of value and reference.
+44;/conf/core/job-results-async-document;core.jobs.echo;in progress;;Validate that the server responds as expected when the asynchronous execution is negotiated and the response type is document.
+45;/conf/core/job-results-failed;-;will not be implemented;not testable as black box test, echo equivalent required;Validate that the job results retrieved using an invalid job identifier complies with the require structure and contents.
+46;/conf/core/job-results-exception-results-not-ready;-;will not be implemented;requirements for the Echo Process missing, an exact runtime would have to be specified;Validate that the job results retrieved for an incomplete job complies with the require structure and contents.
+47;/conf/core/job-results-failed;core.jobs.results.failed;implemented;;Validate that the job results for a failed job complies with the require structure and contents.
+48;/conf/ogc-process-description/json-encoding;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Verify that a JSON-encoded OGC Process Description complies with the required structure and contents.
+49;/conf/ogc-process-description/inputs-def;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Verify that the definition of inputs for each process complies with the required structure and contents.
+50;/conf/ogc-process-description/input-def;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Verify that the definition of each input for each process complies with the required structure and contents.
+51;/conf/ogc-process-description/input-mixed-type;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Validate that each input of mixed type complies with the required structure and contents.
+52;/conf/ogc-process-description/outputs-def;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Verify that the definition of outputs for each process complies with the required structure and contents.
+53;/conf/ogc-process-description/output-def;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Verify that the definition of each output for each process complies with the required structure and contents.
+54;/conf/ogc-process-description/output-mixed-type;core tests with ogc-process-description CC;implemented;expressed by dependencies on 'core';Validate that each output of mixed type complies with the required structure and contents.
+55;/conf/json/definition;core tests with json CC;implemented;expressed by dependencies on 'core';Verify support for JSON.
+56;/conf/html/content;core tests with html CC;implemented;expressed by dependencies on 'core';Verify the content of an HTML document given an input document and schema.
+57;/conf/html/definition;core tests with html CC;implemented;expressed by dependencies on 'core';Verify support for HTML
+58;/conf/oas30/completeness;openapi3.definitions.openapi;implemented;Checked with OpenAPI3 Assertion;Verify the completeness of an OpenAPI document.
+59;/conf/oas30/exceptions-codes;openapi3.definitions.openapi;implemented;Checked with OpenAPI3 Assertion;Verify that the OpenAPI document fully describes potential exception codes.
+60;/conf/oas30/oas-definition-1;openapi3.definitions.openapi, openapi3.definitions.html;implemented;;Verify that JSON and HTML versions of the OpenAPI document are available.
+61;/conf/oas30/oas-definition-2;openapi3.definitions.openapi;implemented;;Verify that the OpenAPI document is valid JSON.
+62;/conf/oas30/oas-impl;-;will not be implemented;open world assumption;Verify that all capabilities specified in the OpenAPI definition are implemented by the API.
+63;/conf/oas30/security;openapi3.definitions.openapi;implemented;Checked with OpenAPI3 Assertion;Verify that any authentication protocols implemented by the API are documented in the OpenAPI document.
+64;/conf/job-list/job-list-op;oapi.processes.joblist.list;in progress;;Validate that information about jobs can be retrieved from the expected location.
+65;/conf/job-list/type-definition;oapi.processes.joblist.parameter.type;implemented;;Validate that the type query parameter is constructed correctly.
+66;/conf/job-list/processID-definition;oapi.processes.joblist.parameter.processid;in progress;;Validate that the processID query parameter is constructed correctly.
+67;/conf/job-list/status-definition;oapi.processes.joblist.parameter.status;in progress;;Validate that the status query parameter is constructed correctly.
+68;/conf/job-list/datetime-definition;oapi.processes.joblist.parameter.datetime;in progress;;Validate that the datetime query parameter is constructed correctly.
+69;/conf/job-list/duration-definition;oapi.processes.joblist.parameter.minmaxduration;in progress;;Validate that the minDuration and maxDuration query parameter are constructed correctly.
+70;/conf/job-list/limit-definition;oapi.processes.joblist.parameter.limit;implemented;;Validate that the limit query parameter is constructed correctly.
+71;/conf/job-list/job-list-success;oapi.processes.joblist.list;in progress;todo: HTML?;Validate that the job list content complies with the required structure and contents.
+72;/conf/job-list/links;oapi.processes.joblist.links;implemented;;Validate that the proper links are included in a response.
+73;/conf/job-list/type-response;oapi.processes.joblist.list;implemented;;Validate that the type query parameter is processed correctly.
+74;/conf/job-list/processID-mandatory;oapi.processes.joblist.list;implemented;;Validate that the processID property is present in every job.
+75;/conf/job-list/processID-response;oapi.processes.joblist.parameter.processid;implemented;;Validate that the processID query parameter is processed correctly.
+76;/conf/job-list/status-response;oapi.processes.joblist.parameter.status;implemented;;Validate that the status query parameter is processed correctly.
+77;/conf/job-list/datetime-response;;maybe;;Validate that the datetime query parameter is processed correctly.
+78;/conf/job-list/duration-response;;maybe;;Validate that the minDuration and maxDuration query parameter are processed correctly.
+79;/conf/job-list/limit-response;oapi.processes.joblist.parameter.limit;implemented;;Validate that the limit query parameter is processed correctly.
+80;/conf/callback/job-callback;;maybe;Callback implemented Framework, Concept in DSL, but not yet in the Execution Engine;Validate the passing of a subscriber-URL in an execute request.
+81;/conf/dismiss/job-dismiss-op;;will not be implemented;;Validate that a running job can be dismissed.
+82;/conf/dismiss/job-dismiss-success;;will not be implemented;;Validate that the content returned when dismissing a job complies with the required structure and contents.
+|===

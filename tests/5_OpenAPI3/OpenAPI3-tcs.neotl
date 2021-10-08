@@ -7,11 +7,15 @@ TestCase "Validate OpenAPI document at /api path" {
     // /conf/oas30/oas-definition-2
     id: definitions.openapi
     description: "Validate that the API Definition document can be retrieved from the expected 
-        location and that it complies with the required structure and contents."
+        location and that it complies with the required structure and contents.
+        "
     references:
         - "API Definition /api"
             "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
             AbstractTestCase
+        - "Open discussion on Open API media types in OGC APIs"
+            "https://github.com/opengeospatial/ogcapi-features/issues/117"
+            Other
 
     ValidationStep "Extract service-desc link" {
         id: extract.openapi
@@ -21,11 +25,11 @@ TestCase "Validate OpenAPI document at /api path" {
             - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/oas30
             - Response from landing.json.step
 
-        when: Extractor extractors.openapi3.desc executed
+        when: Extractor extractors.openapi3.serviceDescLink executed
 
         then:
             - Assert JSON {
-                ${descLink} exists
+                ${serviceDescLink} exists
                 otherwise FAIL with "An OpenAPI definition link in JSON is not 
                     available on the landing page ('service-desc' relation 
                     and 'application/vnd.oai.openapi+json;version=3.0' media type)."
@@ -38,12 +42,13 @@ TestCase "Validate OpenAPI document at /api path" {
         description: "Request the extracted service-desc path"
 
         given:
-            - Value ${descLink} from extract.openapi 
+            - Value ${serviceDescLink} from extract.openapi 
 
         when: Request requests.openapi3.openapi executed
 
         then:
-            - AssertionGroup assertions.json.success must pass
+            - Assert HTTP { statusCode "200" }
+            - Assert HTTP { contentType "application/vnd.oai.openapi+json;version=3.0" }
             
     }
 }
@@ -68,11 +73,11 @@ TestCase "Validate HTML document at /api path" {
             - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
             - Response from landing.json.step
 
-        when: Extractor extractors.openapi3.doc executed
+        when: Extractor extractors.openapi3.serviceDocLink executed
 
         then:
             - Assert JSON {
-                ${docLink} exists
+                ${serviceDocLink} exists
                 otherwise FAIL with "An HTML version of the API definition link is not 
                     available on the landing page ('service-doc' relation 
                     and 'text/html' media type)."
@@ -85,7 +90,7 @@ TestCase "Validate HTML document at /api path" {
         description: "Request the extracted service-doc path"
 
         given:
-            - Value ${docLink} from extract.html
+            - Value ${serviceDocLink} from extract.html
 
         when: Request requests.openapi3.html executed
 

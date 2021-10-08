@@ -14,7 +14,7 @@ Assertion "Conformance link exists" {
 }
 
 Assertion "At least one value exists" {
-    id: atLeastOneValueExists
+    id: assertions.conformance.atLeastOneValueExists
     description: "Check that a conformance link exists"
 
     JSON {
@@ -24,7 +24,7 @@ Assertion "At least one value exists" {
 }
 
 Assertion "Core conformance class in array exists" {
-    id: assertionConformsToCore
+    id: assertions.conformance.conformsToCore
     description: "Validate that the document includes the 'core' conformance class"
 
     JSON {
@@ -39,7 +39,7 @@ AssertionGroup "Processes Conformance Class in Json Array" {
 
     assertions:
         - AssertionGroup assertions.json.success must pass
-        - Assertion assertionConformsToCore must pass
+        - Assertion assertions.conformance.conformsToCore must pass
         - Assert OpenAPI3 {
             schema
             "${schemaUrl}/confClasses.yaml"

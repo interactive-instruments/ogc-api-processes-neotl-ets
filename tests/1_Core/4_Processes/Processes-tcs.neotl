@@ -1,5 +1,6 @@
 import "../../../shared/Assertions.neotl"
 import "Actions.neotl"
+import "Assertions.neotl"
 
 TestCase "Validate /processes path" {
     // /conf/core/process-list
@@ -136,10 +137,7 @@ TestCase "Process descriptions" {
             - Response from process.list.encoding.json
         when: Generator generators.process.ids executed
         then:
-            - Assert JSON { 
-                ${processIds} not empty
-                otherwise FAIL with "No IDs in process list found"
-             }
+            - Assertion assertions.processes.atLeastOneValueExists must pass
     }
 
 

@@ -1,0 +1,11 @@
+import "Actions.neotl"
+
+Assertion "At least one Process ID exists" {
+    id: assertions.processes.atLeastOneValueExists
+    description: "Check that a conformance link exists"
+
+    JSON { 
+                ${processIds} not empty
+                otherwise FAIL with "No IDs in process list found"
+    }
+}
