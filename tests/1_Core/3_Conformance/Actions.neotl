@@ -20,5 +20,5 @@ Generator "Generate link requests" {
     id: generators.conformance.links
 
     from RESPONSE 
-        as ${conformanceLinks} query $.links[?(@.rel=='conformance')].href
+        as ${conformanceLinks} query $.links[?(@.rel=='http://www.opengis.net/def/rel/ogc/1.0/conformance')].href
 }
