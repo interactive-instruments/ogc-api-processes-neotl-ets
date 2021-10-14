@@ -21,8 +21,7 @@ TestCase "Validate /conformance path" {
         when: Request requestsConformanceJson executed
 
         then:
-            - Assertion assertions.conformance.link must pass
-            - AssertionGroup assertions.json.success must pass
+            - AssertionGroup assertions.processes.cc.json.array must pass
     }
 
 }
@@ -63,24 +62,24 @@ TestCase "All conformance links can be retrieved" {
 
     ValidationStep "Generate requests for each conformance link" {
         id: generate
-        description: "Check the landing page"
+        description: "Generate requests for each conformance link on the landing page"
 
         given:
             - Response from conformance.landing.link.step
         when: Generator generators.conformance.links executed
-        then:
+        then: 
             - Assertion assertions.conformance.atLeastOneValueExists must pass
     }
 
     ValidationStep "Check that conformance link exists" {
         // /conf/core/conformance-success
         id: request
-        description: "Check the landing page"
+        description: "Check the linked document"
 
         given:
             - One $conformanceLink of $conformanceLinks from generate
         when: Request requestsConformanceLink executed
         then:
-            - AssertionGroup assertions.processes.cc.json.array must pass
+            - AssertionGroup assertions.ogc.cc.json.array must pass
     }
 }

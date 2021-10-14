@@ -24,8 +24,8 @@ Assertion "At least one value exists" {
 }
 
 Assertion "Core conformance class in array exists" {
-    id: assertions.conformance.conformsToCore
-    description: "Validate that the document includes the 'core' conformance class"
+    id: assertions.conformance.conformsTo.ogcapi
+    description: "Validate that the document includes the OGC API - Processes 'core' conformance class"
 
     JSON {
         $.conformsTo contains some "http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/core"
@@ -39,10 +39,21 @@ AssertionGroup "Processes Conformance Class in Json Array" {
 
     assertions:
         - AssertionGroup assertions.json.success must pass
-        - Assertion assertions.conformance.conformsToCore must pass
+        - Assertion assertions.conformance.conformsTo.ogcapi must pass
         - Assert OpenAPI3 {
             schema
             "${schemaUrl}/confClasses.yaml"
             validates
         }
+}
+
+AssertionGroup "Conformance Class Array" {
+    id: assertions.ogc.cc.json.array
+
+    assertions:
+        - AssertionGroup assertions.json.success must pass
+        - Assert JSON {
+            $.conformsTo not empty
+            otherwise FAIL with "No conformance class was found. Expected an conformsTo array with at least one entry."
+    } 
 }
