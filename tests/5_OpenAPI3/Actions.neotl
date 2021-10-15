@@ -22,7 +22,7 @@ Extractor "Extract service-desc link" {
     id: extractors.openapi3.serviceDescLink
     
     from RESPONSE
-        as ${serviceDescLink} query $.links[?(@.rel=='service-desc' && @.type =="application/openapi+json;version=3.0" )].href
+        as ${serviceDescLink} query $.links[?(@.rel=='service-desc' && @.type =="application/vnd.oai.openapi+json;version=3.0" )].href
 }
 
 Extractor "Extract service-doc link" {

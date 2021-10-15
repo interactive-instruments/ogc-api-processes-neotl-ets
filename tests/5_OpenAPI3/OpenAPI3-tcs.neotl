@@ -7,8 +7,7 @@ TestCase "Validate OpenAPI document at /api path" {
     // /conf/oas30/oas-definition-2
     id: definitions.openapi
     description: "Validate that the API Definition document can be retrieved from the expected 
-        location and that it complies with the required structure and contents.
-        "
+        location and that it complies with the required structure and contents."
     references:
         - "API Definition /api"
             "https://docs.ogc.org/DRAFTS/18-062.html#_api_definition_api"
