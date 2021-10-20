@@ -1,8 +1,9 @@
+import "./JobList-tcs.neotl"
 
 TestModule "Job List" {
     id: oapi.processes.joblist
 
-    description: "..."
+    description: "The Job list requirements class specifies how to retrieve a job list from the API"
 
     references:
     - "Conformance Class Job list"
@@ -10,5 +11,10 @@ TestModule "Job List" {
         ConformanceClass
 
     executes:
-        // - 
+        - joblist.list
+        - joblist.list.json
+        - joblist.list.html
+        - joblist.list.links
+        - joblist.list.parameter.type
+        - joblist.list.parameter.status
 }

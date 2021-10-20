@@ -1,0 +1,301 @@
+import "./Actions.neotl"
+// import "../1_Core/1_Landing/Landing-tcs.neotl"
+import "../../shared/Assertions.neotl"
+
+TestCase "Validate job list at /jobs path" {
+    // /conf/job-list/job-list-op
+    id: joblist.list
+    description: "Validate that information about jobs can be retrieved from the expected location."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Request the Job List" {
+        id: step
+        description: "Request the Job List from the /jobs path"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist executed
+
+        then:
+            - Assert HTTP { statusCode "200" }
+    }
+}
+
+
+TestCase "Validate OpenAPI job list at /jobs path" {
+    // /conf/job-list/job-list-op
+    // /conf/job-list/job-list-success
+    id: joblist.list.json
+    description: "Check if the returned job list document meets the requirements for JSON."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Request the Landing Page as JSON document" {
+        id: step
+        description: "Request an JSON document with an Accept application/json header"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json executed
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass 
+    }
+}
+
+TestCase "Validate HTML job list at /jobs path" {
+    // /conf/job-list/job-list-op
+    // /conf/job-list/job-list-success
+    id: joblist.list.html
+    description: "Check if the returned job list document meets the requirements for HTML."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Request the Landing Page as HTML document" {
+        id: step
+        description: "Request an HTML document with an Accept text/html header"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.html executed
+
+        then:
+            - AssertionGroup assertions.html.success must pass
+            - Assert HTML is valid
+    }
+}
+
+TestCase "Validate links section in job list" {
+    // /conf/job-list/job-list-op
+    // /conf/job-list/job-list-success
+    id: joblist.list.links
+    description: "Validate that the proper links are included in a response."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Validate self link" {
+        id: rel.self
+        description: "Validate self link"
+
+        given:
+            - Response from joblist.list.json.step
+
+        when: 
+
+        then:
+            - Assertion assertions.links.exist must pass
+            - Assertion assertions.links.rel.self.exist must pass
+    }
+
+    ValidationStep "Validate HTML link" {
+        id: rel.alternate.html
+        description: "Validate HTML link"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/html
+            - Response from joblist.list.json.step
+
+        when: 
+
+        then:
+            - Assertion assertions.links.exist must pass
+            - Assertion assertions.links.rel.alternate.html.exist must pass
+    }
+}
+
+TestCase "Validate type query parameter and response" {
+    // /conf/job-list/type-response
+    id: joblist.list.parameter.type
+    description: "Validate that the 'type' query parameter is processed correctly."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Request with type parameter" {
+        id: step
+        description: "Request the Job List with the type parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.type.process executed
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'process')] not exists
+                otherwise FAIL with "In at least one job entry the requested process type 'process' is missing."
+            }
+    }
+}
+
+TestCase "Validate status query parameter and response" {
+    // /conf/job-list/type-response
+    id: joblist.list.parameter.status
+    description: "Validate that the 'status' query parameter is processed correctly."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Request 'created' status" {
+        id: step.created
+        description: "Request the Job List with the 'status' parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.status executed with:
+            - ${status} = 'created'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'created')] not exists
+                otherwise FAIL with "In at least one job entry the requested status 'created' is not returned."
+            }
+    }
+
+    ValidationStep "Request 'started' status" {
+        id: step.started
+        description: "Request the Job List with the 'status' parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.status executed with:
+            - ${status} = 'started'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'started')] not exists
+                otherwise FAIL with "In at least one job entry the requested status 'started' is not returned."
+            }
+    }
+
+    ValidationStep "Request 'finished' status" {
+        id: step.finished
+        description: "Request the Job List with the 'status' parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.status executed with:
+            - ${status} = 'finished'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'finished')] not exists
+                otherwise FAIL with "In at least one job entry the requested status 'finished' is not returned."
+            }
+    }
+
+    ValidationStep "Request 'failed' status" {
+        id: step.failed
+        description: "Request the Job List with the 'status' parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.status executed with:
+            - ${status} = 'failed'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'failed')] not exists
+                otherwise FAIL with "In at least one job entry the requested status 'failed' is not returned."
+            }
+    }
+
+        ValidationStep "Request 'successful' status" {
+        id: step.successful
+        description: "Request the Job List with the 'status' parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.status executed with:
+            - ${status} = 'successful'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'successful')] not exists
+                otherwise FAIL with "In at least one job entry the requested status 'successful' is not returned."
+            }
+    }
+
+    ValidationStep "Request 'running' status" {
+        id: step.running
+        description: "Request the Job List with the 'status' parameter"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.status executed with:
+            - ${status} = 'running'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs[?(@.type != 'running')] not exists
+                otherwise FAIL with "In at least one job entry the requested status 'running' is not returned."
+            }
+    }
+}

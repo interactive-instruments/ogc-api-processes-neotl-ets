@@ -1,0 +1,47 @@
+GetRequest "Request the Job List from the /jobs path" {
+    id: req.joblist
+
+    path: "jobs"
+}
+
+GetRequest "Request the JSON Job List from the /jobs path" {
+    id: req.joblist.json
+
+    path: "jobs"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+GetRequest "Request the HTML Job List from the /jobs path" {
+    id: req.joblist.html
+
+    path: "jobs"
+
+    headers:
+        - "Accept" = "text/html"
+}
+
+GetRequest "Request the JSON Job List from the /jobs path with type=process" {
+    id: req.joblist.json.parameter.type.process
+
+    path: "jobs"
+
+    query:
+        - "type" = "process"
+
+    headers:
+        - "Accept" = "application/json"
+}
+
+GetRequest "Request the JSON Job List from the /jobs path with status" {
+    id: req.joblist.json.parameter.status
+
+    path: "jobs"
+
+    query:
+        - "status" = ${status}
+
+    headers:
+        - "Accept" = "application/json"
+}
