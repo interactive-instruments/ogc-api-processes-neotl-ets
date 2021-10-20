@@ -183,11 +183,7 @@ TestCase "Validate links" {
         when: 
         then:
             - Assertion assertions.links.exist must pass
-            - Assert JSON { 
-                $.links[?(@.rel == 'self')] exists
-                otherwise FAIL with "The response does not contain a links section with a 
-                    link to this response document (relation: self)"
-            }
+            - Assertion assertions.links.rel.self.exist must pass
     }
 
     ValidationStep "Validate HTML link" {
@@ -200,20 +196,7 @@ TestCase "Validate links" {
         when: 
         then:
             - Assertion assertions.links.exist must pass
-            - Assert JSON { 
-                $.links[?(@.rel == 'alternate' && @.type == 'text/html')] exists
-                otherwise FAIL with "The response does not contain a links section 
-                    with a link to the alternate HTML document (relation: alternate)"
-            }
+            - Assertion assertions.links.rel.alternate.html.exist must pass
     }
-
-}
-
-Assertion "Link section exists" {
-    id: assertions.links.exist
-
-    JSON {
-        $.links exists
-        otherwise FAIL with "The links section is missing"
-    }
+    
 }

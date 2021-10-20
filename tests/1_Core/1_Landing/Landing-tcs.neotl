@@ -28,6 +28,7 @@ TestCase "Validate OpenAPI Landing Page" {
     // conf/core/landingpage-op
     id: landing.json
     description: "Check if the returned document meets the requirements for JSON."
+
     references:
         - "Landing page /"
             "https://docs.ogc.org/DRAFTS/18-062.html#_landing_page"
@@ -51,7 +52,7 @@ TestCase "Validate OpenAPI Landing Page" {
     }
 }
 
-TestCase "Validate OpenAPI HTML Landing Page" {
+TestCase "Validate HTML Landing Page" {
     // /conf/core/landingpage-success
     id: landing.html
     description: "Check if the returned document meets the requirements for HTML."

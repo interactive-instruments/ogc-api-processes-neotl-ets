@@ -44,3 +44,32 @@ Assertion "No exception type returned" {
             "No exception type returned"
     }
 }
+
+Assertion "Link section exists" {
+    id: assertions.links.exist
+
+    JSON {
+        $.links exists
+        otherwise FAIL with "The links section is missing"
+    }
+}
+
+Assertion "Self link exists" {
+    id: assertions.links.rel.self.exist
+
+    JSON { 
+        $.links[?(@.rel == 'self')] exists
+        otherwise FAIL with "The response does not contain a links section with a 
+            link to this response document (relation: self)"
+    }
+}
+
+Assertion "HTML link exists" {
+    id: assertions.links.rel.alternate.html.exist
+
+    JSON { 
+        $.links[?(@.rel == 'alternate' && @.type == 'text/html')] exists
+        otherwise FAIL with "The response does not contain a links section 
+            with a link to the alternate HTML document (relation: alternate)"
+        }
+}
