@@ -10,7 +10,7 @@ import "tests/8_Dismiss/Dismiss.neotl"
 
 TestSuite "OGC API - Processes" {
     id: org.opengis.ets.ogcapi.processes
-    version: 0.9.0-snapshot
+    version: 0.9.2-snapshot
     
     description: "Executable Test Suite 
             for validating Web APIs that implement the 

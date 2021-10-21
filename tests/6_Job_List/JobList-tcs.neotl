@@ -151,6 +151,10 @@ TestCase "Validate type query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
+                $.jobs[?(@.type == 'process')] exists or $.jobs empty
+                otherwise FAIL with "No job entry exists with the requested process type 'process'."
+            }
+            - Assert JSON {
                 $.jobs[?(@.type != 'process')] not exists
                 otherwise FAIL with "In at least one job entry the requested process type 'process' is missing."
             }
@@ -184,7 +188,7 @@ TestCase "Validate status query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
-                $.jobs[?(@.type != 'created')] not exists
+                $.jobs[?(@.status != 'created')] not exists
                 otherwise FAIL with "In at least one job entry the requested status 'created' is not returned."
             }
     }
@@ -206,7 +210,7 @@ TestCase "Validate status query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
-                $.jobs[?(@.type != 'started')] not exists
+                $.jobs[?(@.status != 'started')] not exists
                 otherwise FAIL with "In at least one job entry the requested status 'started' is not returned."
             }
     }
@@ -228,7 +232,7 @@ TestCase "Validate status query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
-                $.jobs[?(@.type != 'finished')] not exists
+                $.jobs[?(@.status != 'finished')] not exists
                 otherwise FAIL with "In at least one job entry the requested status 'finished' is not returned."
             }
     }
@@ -250,7 +254,7 @@ TestCase "Validate status query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
-                $.jobs[?(@.type != 'failed')] not exists
+                $.jobs[?(@.status != 'failed')] not exists
                 otherwise FAIL with "In at least one job entry the requested status 'failed' is not returned."
             }
     }
@@ -272,7 +276,7 @@ TestCase "Validate status query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
-                $.jobs[?(@.type != 'successful')] not exists
+                $.jobs[?(@.status != 'successful')] not exists
                 otherwise FAIL with "In at least one job entry the requested status 'successful' is not returned."
             }
     }
@@ -294,8 +298,65 @@ TestCase "Validate status query parameter and response" {
             }
             - AssertionGroup assertions.json.success must pass
             - Assert JSON {
-                $.jobs[?(@.type != 'running')] not exists
+                $.jobs[?(@.status != 'running')] not exists
                 otherwise FAIL with "In at least one job entry the requested status 'running' is not returned."
+            }
+    }
+}
+
+
+
+TestCase "Validate limit query parameter and response" {
+    // /conf/job-list/type-response
+    id: joblist.list.parameter.limit
+    description: "Validate that the 'limit' query parameter is processed correctly."
+
+    references:
+        - "Conformance Class Job list"
+            "https://docs.ogc.org/DRAFTS/18-062.html#_conformance_class_job_list"
+            AbstractTestCase
+
+    ValidationStep "Request one item" {
+        id: step.limitOne
+        description: "Request the Job List with limit=1"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.limit executed with:
+            - ${limit} = '1'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs count == '1'
+                otherwise FAIL with "Expected exactly one entry in the Job List"
+            }
+    }
+
+    ValidationStep "Request three items" {
+        id: step.limitThree
+        description: "Request the Job List with limit=3"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/job-list
+
+        when: Request req.joblist.json.parameter.limit executed with:
+            - ${limit} = '3'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/jobList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.jobs count <= '3'
+                otherwise FAIL with "Expected less than three entries in the Job List"
             }
     }
 }

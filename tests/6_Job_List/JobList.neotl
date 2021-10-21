@@ -17,4 +17,5 @@ TestModule "Job List" {
         - joblist.list.links
         - joblist.list.parameter.type
         - joblist.list.parameter.status
+        - joblist.list.parameter.limit
 }

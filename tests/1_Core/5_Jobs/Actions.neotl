@@ -9,20 +9,16 @@ Extractor "Extract the input and output values from the schema object" {
     id: extractors.inputoutputs
 
     from RESPONSE 
-        as ${inputs} query {
-            "reproducibleSamplesFromSchema( $.inputs )"
-        }
+        as ${inputs} query {"
+            etf:sampleFromSchema( $.inputs )
+        "}
 
-        as ${outputs} query {
-            "'outputs': {
-                for $output in $.outputs
-                    return {
-                        $output : {
-                            'transmissionMode': 'value'
-                        }
-                    }
-            }"
-        }
+        as ${outputs} query {"
+            for $output in $.outputs
+                return element { $output.name() } {
+                     'transmissionMode' : 'value'
+                }
+        "}
 }
 
 
@@ -46,7 +42,6 @@ PostRequest "Execute Echo Process" {
 
     // body from "./execute-echo.json" as application/json
     body {
-        "id": ${echoId},
          "inputs": ${inputs},
          "outputs": ${outputs},
          "response": "document"

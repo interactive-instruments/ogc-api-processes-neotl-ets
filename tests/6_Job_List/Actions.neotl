@@ -45,3 +45,15 @@ GetRequest "Request the JSON Job List from the /jobs path with status" {
     headers:
         - "Accept" = "application/json"
 }
+
+GetRequest "Request the JSON Job List from the /jobs path with an limit" {
+    id: req.joblist.json.parameter.limit
+
+    path: "jobs"
+
+    query:
+        - "limit" = ${limit}
+
+    headers:
+        - "Accept" = "application/json"
+}

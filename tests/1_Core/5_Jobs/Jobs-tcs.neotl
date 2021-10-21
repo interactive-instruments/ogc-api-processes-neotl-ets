@@ -68,13 +68,36 @@ TestCase "Execute the echo process" {
             If available, default values are used otherwise simple values are generated for the data type."
 
         given:
-            - Response from process.list.encoding.json
+            - Response from jobs.echo.description.request
         
         when: Extractor extractors.inputoutputs executed
 
         then:
             - Assertion inputs.extracted must pass
             - Assertion outputs.extracted must pass
+    }
+
+
+    ValidationStep "Execute echo process respond-async" {
+        id: jobs.echo.execute.async
+        description: "Execute the echo process with the extracted echoId"
+
+        given:
+            - Value $echoId from jobs.echo.extract
+            - Values $inputs, $outputs from jobs.echo.execute.inout.extract
+
+        when:
+            Request requests.echo executed with:
+                - ${preferHeader} = "respond-async"
+
+        then:
+            - Assert OpenAPI3 {
+                schema 
+                "${schemaUrl}/statusInfo.yaml"
+                validates
+            }
+            - Assert HTTP { statusCode "200" }
+            - Assert HTTP { contentType "application/json" }
     }
 
 
@@ -93,7 +116,7 @@ TestCase "Execute the echo process" {
         then:
             - Assert OpenAPI3 {
                 schema 
-                "${schemaUrl}/output.yaml"
+                "${schemaUrl}/results.yaml"
                 validates
             }
             - AssertionGroup assertions.json.success must pass
