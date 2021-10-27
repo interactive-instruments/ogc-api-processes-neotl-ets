@@ -9,8 +9,9 @@ Extractor "Extract the input and output values from the schema object" {
     id: extractors.inputoutputs
 
     from RESPONSE 
+        // see extensions/SampleGenerator.xqm
         as ${inputs} query {"
-            etf:sampleFromSchema( $.inputs )
+            oapip:qualifiedSampleValues( $.inputs )
         "}
 
         as ${outputs} query {"
