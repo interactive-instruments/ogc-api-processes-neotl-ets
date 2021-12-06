@@ -10,7 +10,7 @@ module namespace oapip = 'https://etf-validator.net/neotl/ext/ogc-api-processes'
  : see https://docs.ogc.org/DRAFTS/18-062.html#req_core_process-execute-input-inline-object
  :)
 declare %private function oapip:mustBeQualified($schema) {
-  exists($schema[type='object' and not(properties/bbox)]) or exists($schema[oneOf or allOf])
+  exists($schema[type='object' and not(properties/bbox)]) or exists($schema[oneOf or anyOf or allOf])
 };
 
 (:~
