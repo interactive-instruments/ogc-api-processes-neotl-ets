@@ -51,3 +51,15 @@ GetRequest "Get Process Description" {
     headers:
         - "Accept" = "application/json"
 }
+
+GetRequest "Request the Processes List from the /processes path with an limit" {
+    id: requests.processes.json.parameter.limit
+
+    path: "processes"
+
+    query:
+        - "limit" = ${limit}
+
+    headers:
+        - "Accept" = "application/json"
+}

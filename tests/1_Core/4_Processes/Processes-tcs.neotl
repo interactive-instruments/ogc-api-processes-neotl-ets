@@ -54,13 +54,57 @@ TestCase "Validate /processes path" {
 
 TestCase "Validate limit query parameter" {
     // /conf/core/pl-limit-definition
-    id: process.list.limit
+    id: process.list.parameter.limit
     description: "Validate that the limit query parameter is constructed correctly."
 
     references:
         - "Processes /processes"
             "https://docs.ogc.org/DRAFTS/18-062.html#_process_list_2"
             AbstractTestCase
+
+    ValidationStep "Request one item" {
+        id: step.limitOne
+        description: "Request the Process List with limit=1"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
+
+        when: Request requests.processes.json.parameter.limit executed with:
+            - ${limit} = '1'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/processList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.processes count == '1'
+                otherwise FAIL with "Expected exactly one entry in the Process List"
+            }
+    }
+
+    ValidationStep "Request three items" {
+        id: step.limitThree
+        description: "Request the Process List with limit=3"
+
+        given:
+            - ConformanceClass http://www.opengis.net/spec/ogcapi-processes-1/1.0/conf/json
+
+        when: Request requests.processes.json.parameter.limit executed with:
+            - ${limit} = '3'
+
+        then:
+            - Assert OpenAPI3 { 
+                schema "${schemaUrl}/processList.yaml"
+                validates
+            }
+            - AssertionGroup assertions.json.success must pass
+            - Assert JSON {
+                $.processes count <= '3'
+                otherwise FAIL with "Expected less than three entries in the Process List"
+            }
+    }
 
 }
 
