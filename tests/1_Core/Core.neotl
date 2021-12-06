@@ -29,7 +29,7 @@ TestModule "Core" {
         - conformance.landing.links
 
         - process.list
-        // - process.list.limit
+        - process.list.parameter.limit
         - process.exception.no.such.process
         - process.description
         - process.list.links
