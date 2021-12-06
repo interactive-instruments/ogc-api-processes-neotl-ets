@@ -80,7 +80,7 @@ TestCase "Execute the echo process" {
 
     ValidationStep "Execute echo process respond-async" {
         id: jobs.echo.execute.async
-        description: "Execute the echo process with the extracted echoId"
+        description: "Execute the echo process in auto execution mode with the extracted echoId"
 
         given:
             - Value $echoId from jobs.echo.extract
@@ -103,7 +103,7 @@ TestCase "Execute the echo process" {
 
     ValidationStep "Execute echo process respond-sync" {
         id: jobs.echo.execute.sync
-        description: "Execute the echo process with the extracted echoId"
+        description: "Execute the echo process in auto execution mode with the extracted echoId"
 
         given:
             - Value $echoId from jobs.echo.extract
@@ -119,6 +119,21 @@ TestCase "Execute the echo process" {
                 "${schemaUrl}/results.yaml"
                 validates
             }
+            - AssertionGroup assertions.json.success must pass
+    }
+
+    ValidationStep "Execute echo process default" {
+        id: jobs.echo.execute.default
+        description: "Execute the echo process in default execution mode with the extracted echoId"
+
+        given:
+            - Value $echoId from jobs.echo.extract
+            - Values $inputs, $outputs from jobs.echo.execute.inout.extract
+
+        when:
+            Request requests.echo executed 
+
+        then:
             - AssertionGroup assertions.json.success must pass
     }
 }
