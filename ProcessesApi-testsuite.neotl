@@ -40,13 +40,13 @@ TestSuite "OGC API - Processes" {
 
     executes:
         - oapi.processes.core
-        - oapi.processes.description
-        - oapi.processes.json
-        - oapi.processes.html
+        // - oapi.processes.description
+        // - oapi.processes.json
+        // - oapi.processes.html
         - oapi.processes.openapi3
         - oapi.processes.joblist
-        - oapi.processes.callback
-        - oapi.processes.dismiss
+        // - oapi.processes.callback
+        // - oapi.processes.dismiss
 
     defines:
         - URL $schemaUrl = "https://raw.githubusercontent.com/opengeospatial/ogcapi-processes/master/core/openapi/schemas"
